@@ -25,6 +25,10 @@ class Node(object):
                 if chunk:
                     pdf.write(chunk)
 
+    def do_task(self):
+        # 执行文件，这里还需要用一个redis做任务状态缓存
+        pass
+
 def main():
     mynode = Node()
     mynode.register_to_server()
