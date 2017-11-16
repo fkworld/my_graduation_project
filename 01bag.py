@@ -1,3 +1,7 @@
+'''
+    01背包问题的动态规划实现
+'''
+
 def bag(n, c, w, v):
     res = [[-1 for j in range(c + 1)] for i in range(n + 1)]
     print(res) # 初始化状态
