@@ -1,42 +1,48 @@
 '''
     01背包问题的动态规划实现
+    阶段：在前N件物品中，选取若干件物品放入背包中
+    状态：在前N件物品中，选取若干件物品放入所剩空间为W的背包中的所能获得的最大价值
+    决策：第N件物品放或者不放
 '''
 
-def bag(n, c, w, v):
-    res = [[-1 for j in range(c + 1)] for i in range(n + 1)]
-    print(res) # 初始化状态
-    for j in range(c + 1):
-        res[0][j] = 0
-    print(res) # 初始化第0次的状态
-    for i in range(1, n + 1):
-        for j in range(1, c + 1):
-            res[i][j] = res[i - 1][j]
-            if j >= w[i - 1] and res[i][j] < res[i - 1][j - w[i - 1]] + v[i - 1]:
-                res[i][j] = res[i - 1][j - w[i - 1]] + v[i - 1]
-        print(res)
-    print(res)
-    return res
+from numpy import zeros
+from random import randint
 
 
-def show(n, c, w, res):
-    print('最大价值为:', res[n][c])
-    x = [False for i in range(n)]
-    j = c
-    for i in range(1, n + 1):
-        if res[i][j] > res[i - 1][j]:
-            x[i - 1] = True
-            j -= w[i - 1]
-    print('选择的物品为:')
-    for i in range(n):
-        if x[i]:
-            print('第', i, '个,', end='')
-    print('')
+class Item(object):
+    def __init__(self, id, weight, value):
+        self.id = id
+        self.weight = weight
+        self.value = value
+
+
+
+def f(items, number, weight_max):
+    o = 0
+    result = zeros((number+1, weight_max+1))  # 初始化结果二维数组
+    for i in range(1, number+1):
+        for j in range(1, weight_max+1):
+            o += 1
+            if weight_max < items[i].weight:
+                # 如果第i个物品
+                result[i][j] = result[i - 1][j]
+            else:
+                v1 = result[i - 1][j]
+                v2 = result[i - 1][j - items[i].weight] + items[i].value
+                result[i][j] = max(v1, v2)
+    print(o)
+    print(result[number][weight_max])
+
+def init_items(number):
+    items = list()
+    for i in range(number):
+        random_number = randint(0,20)
+        print(random_number,end=' ')
+        item = Item(i,random_number, random_number)
+        items.append(item)
+    return items
 
 
 if __name__ == '__main__':
-    n = 3
-    c = 3
-    w = [2, 6, 6]
-    v = [1, 1, 1]
-    res = bag(n, c, w, v)
-    show(n, c, w, res)
+    items = init_items(11)
+    f(items, 10, 100)
