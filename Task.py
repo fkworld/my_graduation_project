@@ -17,7 +17,7 @@ class MainTask(db.Model):
     # 自动生成name
     def set_name(self):
         self.name = "auto-name"
-    
+
     # 设置mname为玩家给出的参数
     def set_mname(self):
         self.mname = "given-name"
@@ -27,6 +27,12 @@ class MainTask(db.Model):
         self.sourcefile_path = "spath"
         self.sourcefile_url = "surl"
 
+    def add_to_db(self):
+        db.session.add(self)
+        db.session.commit()
 
-class SubTask(db.Model):
-    __tablename__ = 'sub_task_tables'
+    def searh_all(self):
+        return self.query.all()
+
+    def search_by_id(self, id):
+        self = self.query.get(id)

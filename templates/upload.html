@@ -1,0 +1,21 @@
+{% extends "base.html"%}
+
+{% block body %}
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.file(multiple="multiple")}}
+        {% for error in form.file.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+        {{ form.submit }}
+    </form>
+
+    {% if success %}
+    <br>
+    <p>Upload Success!</p>
+    {% endif %}
+
+    {% if file_url %}
+    <img src="{{ file_url }}">
+    {% endif %}
+{% endblock %}
