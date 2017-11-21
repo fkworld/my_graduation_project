@@ -1,6 +1,9 @@
 from flask import Flask, render_template, send_file, send_from_directory, make_response
 
+from serverDB import ServerDB
+
 app = Flask(__name__)
+server_db = ServerDB(app)
 
 @app.route('/')
 def hello_world():
