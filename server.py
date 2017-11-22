@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_file, send_from_directory, make_response
+from flask import Flask, render_template, send_file, send_from_directory, make_response, request
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 
 from serverDB import ServerDB
@@ -58,6 +58,7 @@ def manage_file():
 @app.route('/register')
 def register():
     print("node is success register.")
+    print(request)
     return "sucecess"
 
 
@@ -76,7 +77,6 @@ def _3dmodel():
     finally:
         file.close()
     return render_template("3dmodel.html", file_js = text)
-
 
 if __name__ == '__main__':
     app.run()

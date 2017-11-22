@@ -32,7 +32,6 @@ class Node(object):
 def main():
     mynode = Node()
     mynode.register_to_server()
-    mynode.get_task()
 
 if __name__ == '__main__':
     main()
