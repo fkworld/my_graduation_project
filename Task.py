@@ -36,3 +36,9 @@ class MainTask(db.Model):
 
     def search_by_id(self, id):
         self = self.query.get(id)
+
+    # 将obj文件转换成js文件
+    def process_obj_to_js(self, obj_filepath):
+        from subprocess import Popen
+        cmd = 'python jObj.py -i ' + obj_filepath + ' -o out/test.js'
+        Popen(cmd).wait()
