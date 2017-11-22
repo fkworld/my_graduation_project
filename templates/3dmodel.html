@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<script src="{{ url_for("static", filename="CanvasMatrix.js") }}" type="text/javascript"></script>
+<script src="{{ url_for("static", filename="Controls.js") }}" type="text/javascript"></script>
+
+<script id="shader-vs" type="x-shader/x-vertex"> 
+  attribute vec3 aPos;
+  attribute vec3 aNorm;
+  uniform mat4 mvMatrix;
+  uniform mat4 prMatrix;
+  uniform vec3 difCol;
+  uniform vec3 specCol;
+  varying vec3 col;
+  const vec4 dirDif = vec4(0., 0., 1., 0.);
+  const vec4 dirHalf = vec4(-.4034, .259, .8776, 0.);
+void main(void) {
+   gl_Position = prMatrix * mvMatrix * vec4(aPos, 1.);
+   vec4 rotNorm = mvMatrix * vec4(aNorm, .0);
+   col = difCol * max( 0., dot(rotNorm, dirDif) );
+   col += 2.*specCol * pow( max( 0., dot(rotNorm, dirHalf) ), 40.);
+}
+</script> 
+ 
+<script id="shader-fs" type="x-shader/x-fragment"> 
+precision mediump float;
+  varying vec3 col;
+void main(void) {
+   gl_FragColor = vec4( col, 1.);
+}
+</script> 
+ 
+<script type="text/javascript">
+
+{{ file_js }}
+
+
+var nv=11165, nf=63738;
+var mati =[12,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,11,10,9,8,7,6,5,4,3,2,1];
+var matc =[0,1560,162,162,198,198,246,246,252,252,246,258,258,258,258,258,258,234,282,282,282,282,282,282,312,372,372,336,390,390,408,498,498,498,498,420,558,558,546,546,516,642,642,666,666,684,684,684,684,684,684,666,666,834,834,840,840,840,840,762,930,930,879,1404,1332,1560,1560,1560,1830,1830,2316,2580,3570,4038,4038,4827];
+var mat=[];
+mat[37]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[52]=
+[0.561569,0.332549,0.332549,0.17451,0.3,0.3];
+mat[8]=
+[0.561569,0.332549,0.332549,0.17451,0.3,0.3];
+mat[1]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[23]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[38]=
+[0.561569,0.332549,0.332549,0.17451,0.3,0.3];
+mat[66]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[33]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[13]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[27]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[71]=
+[0.561569,0.332549,0.332549,0.17451,0.3,0.3];
+mat[48]=
+[0.561569,0.332549,0.332549,0.17451,0.3,0.3];
+mat[62]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[61]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[39]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[14]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[10]=
+[0.784314,0.633726,0.633726,0.17451,0.3,0.3];
+mat[6]=
+[0.561569,0.332549,0.332549,0.17451,0.3,0.3];
+mat[5]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[75]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[50]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[35]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[47]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[19]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[42]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[67]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[31]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[32]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[73]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[11]=
+[0.784314,0.633726,0.633726,0.17451,0.3,0.3];
+mat[21]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[59]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[56]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[63]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[9]=
+[0.784314,0.633726,0.633726,0.17451,0.3,0.3];
+mat[68]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[41]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[20]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[74]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[18]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[53]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[34]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[15]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[43]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[24]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[70]=
+[0.561569,0.332549,0.332549,0.17451,0.3,0.3];
+mat[2]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[30]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[44]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[17]=
+[0.050196,0.025098,0.025098,0.17451,0.3,0.3];
+mat[58]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[65]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[22]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[4]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[40]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[69]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[28]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[54]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[72]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[49]=
+[0.561569,0.332549,0.332549,0.17451,0.3,0.3];
+mat[64]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[29]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[12]=
+[0.784314,0.633726,0.633726,0.17451,0.3,0.3];
+mat[26]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[25]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[55]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[46]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[36]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[60]=
+[0.247843,0.144314,0.144314,0.17451,0.3,0.3];
+mat[45]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[3]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+mat[51]=
+[0.561569,0.332549,0.332549,0.17451,0.3,0.3];
+mat[16]=
+[0.050196,0.025098,0.025098,0.17451,0.3,0.3];
+mat[7]=
+[0.561569,0.332549,0.332549,0.17451,0.3,0.3];
+mat[57]=
+[0.624314,0.48,0.48,0.17451,0.3,0.3];
+
+var mvMatrix = new CanvasMatrix4();
+var rotMat = new CanvasMatrix4();
+var ml = mati.length, specLoc, difLoc, mvMatLoc;
+function webGLStart() {
+   initGL();
+   transl = -5;
+   var c_w = window.innerWidth - 50,  c_h = window.innerHeight;
+   canvas.width = c_w;   canvas.height = c_h;
+   gl.viewport(0, 0, c_w, c_h);
+
+   var prog  = gl.createProgram();
+   gl.attachShader(prog, getShader( gl, "shader-vs" ));
+   gl.attachShader(prog, getShader( gl, "shader-fs" ));
+   gl.linkProgram(prog);
+   gl.useProgram(prog);
+
+   var fl = f.length;
+
+   var posLoc = gl.getAttribLocation(prog, "aPos");
+   gl.enableVertexAttribArray( posLoc );
+   var normLoc = gl.getAttribLocation(prog, "aNorm");
+   gl.enableVertexAttribArray( normLoc );
+
+   gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+   gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
+   gl.vertexAttribPointer(posLoc,  3, gl.FLOAT, false, 24,  0);
+   gl.vertexAttribPointer(normLoc, 3, gl.FLOAT, false, 24, 12);
+
+   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
+   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, f, gl.STATIC_DRAW);
+
+   var prMatrix = new CanvasMatrix4();
+   prMatrix.perspective(45, c_w/c_h, .1, 100);
+   gl.uniformMatrix4fv( gl.getUniformLocation(prog,"prMatrix"),
+      false, new Float32Array(prMatrix.getAsArray()) );
+   rotMat.makeIdentity();
+   rotMat.rotate(-90, 1,0,0);
+   rotMat.rotate(-80, 0,1,0);
+   mvMatLoc = gl.getUniformLocation(prog,"mvMatrix");
+
+   difLoc  = gl.getUniformLocation(prog, "difCol");
+   specLoc = gl.getUniformLocation(prog, "specCol");
+
+   gl.enable(gl.DEPTH_TEST);
+   gl.depthFunc(gl.LEQUAL);
+   gl.clearDepth(1.0);
+   gl.clearColor(1, 1, .6, 1);
+   drawScene();
+
+  canvas.resize = function (){
+    c_w = window.innerWidth - 50;  c_h = window.innerHeight;
+    canvas.width = c_w;   canvas.height = c_h;
+    gl.viewport(0, 0, c_w, c_h);
+    prMatrix.makeIdentity();
+    prMatrix.perspective(45, c_w/c_h, .1, 100);
+    gl.uniformMatrix4fv( gl.getUniformLocation(prog,"prMatrix"),
+      false, new Float32Array(prMatrix.getAsArray()) );
+    drawScene();
+  }
+}
+  function drawScene(){
+    rotMat.rotate(xRot/5, 1,0,0);  rotMat.rotate(yRot/5, 0,1,0);
+    rotMat.rotate(zRot, 0,0,1);
+    yRot = xRot = zRot = 0;
+    mvMatrix.makeIdentity();
+    mvMatrix.translate(0, 0, 0);
+    mvMatrix.multRight( rotMat );
+    mvMatrix.translate(0, 0, transl);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.uniformMatrix4fv( mvMatLoc, false, new Float32Array(mvMatrix.getAsArray()) );
+    var off = 0;
+    for (var i = 0; i < ml;  i++){
+      var t = mati[i];
+      gl.uniform3f( difLoc, mat[t][1], mat[t][0], mat[t][2] );
+      gl.uniform3f( specLoc, mat[t][3],mat[t][4],mat[t][5] );
+      gl.drawElements(gl.TRIANGLES, matc[i+1], gl.UNSIGNED_SHORT, 2*off);
+      off += matc[i+1];
+    }
+    gl.flush ();
+  }
+</script> 
+
+{% endblock %}
+
+{% block body %}
+<body onload="webGLStart();" onresize="canvas.resize();"> 
+   <canvas id="canvas" width="936" height="568"></canvas> 
+
+
+<br>Use your fingers or mouse to control the model
+(hold <i>shift</i> key or use mouse wheel to zoom it).
+Canvas is matched to your browser window.
+
+<br>Alexei Sharov's
+<a href="http://home.comcast.net/%7Esharov/3d/virtual.html">Virtual Insects</a>.
+3DS model with materials.
+
+<hr><a href="http://www.ibiblio.org/e-notes/webgl/webgl.htm">WebGL Demos</a>
+&nbsp; &nbsp; <i>updated</i> 1 Feb 2011
+
+{% endblock %}

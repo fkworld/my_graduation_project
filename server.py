@@ -3,6 +3,8 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_cl
 
 from serverDB import ServerDB
 
+import os
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '42'
 app.config['DEBUG'] = True
@@ -65,6 +67,15 @@ def needtask():
     response = make_response(send_file("README.md"))
     response.headers["Content-Disposition"] = "attachment; filename=README.md;"
     return response
+
+@app.route('/3dmodel')
+def _3dmodel():
+    file = open("out/test.js", 'r')
+    try:
+        text = file.read()
+    finally:
+        file.close()
+    return render_template("3dmodel.html", file_js = text)
 
 
 if __name__ == '__main__':
