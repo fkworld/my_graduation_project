@@ -1,8 +1,7 @@
-from flask import Flask, render_template, send_file, send_from_directory, make_response, request
+from flask import Flask, render_template, send_file, send_from_directory, make_response, request, jsonify
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 
 from serverDB import ServerDB
-
 import os
 
 app = Flask(__name__)
@@ -61,6 +60,17 @@ def register():
     print(request)
     return "sucecess"
 
+@app.route('/ask_task')
+def ask_task():
+    # 节点请求任务，用json作为传递任务参数的媒介
+    # 包含：任务id，任务资源下载地址，任务结果上传地址
+    print("node is asking for task.")
+    task = {
+        "id": "brian",
+        "download_url": "",
+        "upload_url": "",
+    }
+    return jsonify(task)
 
 @app.route('/needtask')
 def needtask():

@@ -16,8 +16,14 @@ class Node(object):
         result = requests.get(self.requests_url + "/register")
         print(result.text)
 
-    def get_task(self):
-        # 节点向服务器请求任务资源
+    # 向服务器请求任务，获得一个包含任务信息的json，并将任务信息存入自身数据库中
+    def ask_task(self):
+        result = requests.get(self.requests_url + "/ask_task")
+        print(result.json()['id'])
+
+    # 下载任务资源文件
+    def download_task(self):
+        # 节点向服务器请求下载任务资源
         # 由于文件比较大，所以采用stream=True的文件流下载方式
         result = requests.get(self.requests_url + "/needtask", stream=True)
         with open("download.md", "wb") as pdf:
@@ -31,7 +37,7 @@ class Node(object):
 
 def main():
     mynode = Node()
-    mynode.register_to_server()
+    mynode.ask_task()
 
 if __name__ == '__main__':
     main()
