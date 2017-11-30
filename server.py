@@ -71,7 +71,8 @@ def ask_task():
     test = TaskQueue()
     # 这里需要写test=，不明原因
     test = test.get()
-    return jsonify(test.to_json_dict())
+    _response = jsonify(test.to_json_dict())
+    return _response
 
 
 @app.route('/download_sourcefile/<sourcefile_filename>')

@@ -23,7 +23,10 @@ class Node(object):
     def ask_task(self):
         result = requests.get(self.requests_url + "/ask_task")
         self.current_task = result.json()
-        print(self.current_task)
+        if self.current_task['id'] is not None:
+            print('获取到任务，任务信息为：' + self.current_task)
+        else:
+            print('目前服务器无任务...请稍后再进行获取')
 
     # 下载任务资源文件
     def download_task(self):
@@ -54,9 +57,15 @@ class Node(object):
 
 
 def main():
-    mynode = Node()
-    mynode.ask_task()
-    mynode.download_task()
+    from time import sleep
+    _time_space = 10 # 轮询的时间间隔，暂时设定为10
+    while True:
+        mynode = Node()
+        mynode.ask_task()
+        if mynode.current_task['id'] is not None:
+            mynode.download_task()
+            print("Task is down")
+        sleep(_time_space)
 
 
 if __name__ == '__main__':

@@ -6,6 +6,7 @@ def main():
     # test.set_download_url("http://localhost:5000/download_sourcefile/REDEME.md")
     with app.app_context():
         # test.add()
+
         test = test.get()
         print(test.id)
 
