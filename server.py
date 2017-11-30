@@ -63,14 +63,11 @@ def register():
 @app.route('/ask_task')
 def ask_task():
     # 节点请求任务，用json作为传递任务参数的媒介
-    # 包含：任务id，任务资源下载地址，任务结果上传地址
-    print("node is asking for task.")
-    task = {
-        "id": "brian",
-        "download_url": "",
-        "upload_url": "",
-    }
-    return jsonify(task)
+    # 包含：任务id，任务资源下载地址，任务结果上传地址，任务目标节点
+    from TaskQueue import TaskQueue
+    print("node is asking for task...")
+    test = TaskQueue(download_url="downlaod",target_node=1,upload_url="upload")
+    return jsonify(test.to_json_dict())
 
 @app.route('/needtask')
 def needtask():
