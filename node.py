@@ -22,7 +22,8 @@ class Node(object):
     # 向服务器请求任务，获得一个包含任务信息的json，并将任务信息存入自身数据库中
     def ask_task(self):
         result = requests.get(self.requests_url + "/ask_task")
-        print(result.json()['download_url'])
+        self.current_task = result.json()
+        print(self.current_task)
 
     # 下载任务资源文件
     def download_task(self):
@@ -54,8 +55,7 @@ class Node(object):
 
 def main():
     mynode = Node()
-    mynode.current_task = {
-        'id': 1, 'download_url': "http://localhost:5000/download_sourcefile/REDEME.md"}
+    mynode.ask_task()
     mynode.download_task()
 
 

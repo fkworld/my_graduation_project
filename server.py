@@ -68,8 +68,9 @@ def ask_task():
     # 包含：任务id，任务资源下载地址，任务结果上传地址，任务目标节点
     from TaskQueue import TaskQueue
     print("node is asking for task...")
-    test = TaskQueue(download_url="downlaod",
-                     target_node=1, upload_url="upload")
+    test = TaskQueue()
+    # 这里需要写test=，不明原因
+    test = test.get()
     return jsonify(test.to_json_dict())
 
 

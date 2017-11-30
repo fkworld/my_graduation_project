@@ -13,10 +13,14 @@ class TaskQueue(db.Model):
     target_node = db.Column(db.Integer,default=0)       # 目标节点
     upload_url = db.Column(db.Text)                     # 结果上传地址
 
-    def __init__(self, download_url, target_node, upload_url):
+    def set_download_url(self, download_url):
         self.download_url = download_url
-        self.target_node = target_node
+
+    def set_upload_url(self, upload_url):
         self.upload_url = upload_url
+
+    def set_target_node(self, target_node):
+        self.target_node = target_node
 
     def add(self):
         db.session.add(self)
@@ -41,5 +45,12 @@ class TaskQueue(db.Model):
             "upload_url": self.upload_url
         }
         return task_json_dict
+
+    # 清理taskqueue数据表，仅供测试用，生产环境下不应该写这个接口
+    def clear_queue(self):
+        for _task in self.query.all():
+            self = _task
+            self.delete()
+        print('清理数据库成功...')
 
 
