@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_file, send_from_directory, make_response, request, jsonify
-from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from flask_uploads import UploadSet, configure_uploads, ALL, patch_request_class
 
 from serverDB import ServerDB
 import os
@@ -7,17 +7,15 @@ import os
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '42'
 app.config['DEBUG'] = True
-# 配置文件上传的路径
-app.config['UPLOADED_PHOTOS_DEST'] = 'upload'
-# 配置文件的限制类型
-app.config['UPLOADED_PHOTO_ALLOW'] = IMAGES
 
 # 实例化UploadSet
-from form import file_images
-# 将 app 的 config 配置注册到 UploadSet 实例 file_images （这是人说的话吗）
-configure_uploads(app, file_images)
-# 限制上传文件的大小
-patch_request_class(app, 32 * 1024 * 1024)  # 32MB
+files = UploadSet('files', ALL)
+# 配置文件上传的路径
+app.config['UPLOADS_DEFAULT_DEST'] = 'upload'
+# 将 app 的 config 配置注册到 UploadSet 实例 _uploads （这是人说的话吗）
+configure_uploads(app, files)
+# 限制上传文件的大小:1024MB
+patch_request_class(app, 1024 * 1024 * 1024)
 
 
 server_db = ServerDB(app)
@@ -35,10 +33,9 @@ def upload_file():
     from Task import MainTask
     file = MainTask()
     if form.validate_on_submit():
-        from form import file_images
-        file.name = file_images.save(form.file.data)
-        file.sourcefile_url = file_images.url(file.name)
-        file.sourcefile_path = file_images.path(file.name)
+        file.name = files.save(form.file.data, name="xxx")
+        file.sourcefile_url = files.url(file.name)
+        file.sourcefile_path = files.path(file.name)
         file.add_to_db()
         success = True
     else:
