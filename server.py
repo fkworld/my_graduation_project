@@ -3,6 +3,7 @@ from flask_uploads import UploadSet, configure_uploads, ALL, patch_request_class
 
 from serverDB import ServerDB
 import os
+import time
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '42'
@@ -33,7 +34,12 @@ def upload_file():
     from Task import MainTask
     file = MainTask()
     if form.validate_on_submit():
-        file.name = files.save(form.file.data, name="xxx")
+        _filename = form.file.data.filename  # 获取上传文件的文件名
+        _filetype = '.' + _filename.split('.')[-1]  # 获取上传文件的文件类型
+        file.mname = _filename
+        # 根据文件名和当前时间计算哈希值作为文件的存储名
+        _file_savename = str(hash(_filename + str(time.time()))) + _filetype
+        file.name = files.save(form.file.data, name=_file_savename)
         file.sourcefile_url = files.url(file.name)
         file.sourcefile_path = files.path(file.name)
         file.add_to_db()
@@ -79,7 +85,8 @@ def download_sourcefile(sourcefile_filename):
     response = make_response(send_file(filename))
     response.headers["Content-Disposition"] = "attachment"
     # 这里添加一个filetype项目来标识文件的类型
-    response.headers['_filetype'] = '.' + filename.split('.')[-1]  # 用-1来获取最后一个元素
+    response.headers['_filetype'] = '.' + \
+        filename.split('.')[-1]  # 用-1来获取最后一个元素
     return response
 
 
