@@ -4,3 +4,4 @@
 *.db
 /upload
 /download
+__pycache__
