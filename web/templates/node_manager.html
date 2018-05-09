@@ -1,0 +1,23 @@
+{% extends "base.html"%}
+
+{% block body %}
+<table border="1">
+    <tr>
+        <th>序号</th>
+        <th>唯一验证码</th>
+        <th>节点名称</th>
+        <th>节点ip</th>
+        <th>节点更新时间</th>
+    </tr>
+    {% for node in node_list %}
+    <tr>
+        <td>{{ node.id }}</td>
+        <td>{{ node.passcode }}</td>
+        <td>{{ node.name}}</td>
+        <td>{{ node.ip }}</a>
+        </td>
+        <td>{{ node.update_time }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

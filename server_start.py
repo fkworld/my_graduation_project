@@ -1,34 +1,31 @@
-from NodeCheck.node_check import NodeCheck
-from NodeConnect.node_connect import NodeConnect
-from NodeManager.node_manager import NodeManager
-from NodeSourceManager.node_source_manager import NodeSourceManager
-from TaskManager.task_manager import TaskManager
-from TaskSchedule.task_schedule import TaskSchedule
-from Web.web import Web
+import NodeCheck
+import NodeConnect
+import NodeManager
+import NodeSourceManager
+import TaskManager
+import TaskSchedule
+import Web
 
 
 class Server(object):
     def __init__(self):
         print("Start as Server...")
+        self.load_modules()
 
     def load_modules(self):
-        self.node_check = NodeCheck()
-        self.node_connect = NodeConnect()
-        self.node_manager = NodeManager()
-        self.node_source_manager = NodeSourceManager()
-        self.task_manager = TaskManager()
-        self.task_schedule = TaskSchedule()
-        self.web = Web()
+        self.node_check = NodeCheck.NodeCheck()
+        self.node_connect = NodeConnect.NodeConnect()
+        self.node_manager = NodeManager.NodeManager()
+        self.node_source_manager = NodeSourceManager.NodeSourceManager()
+        self.task_manager = TaskManager.TaskManager()
+        self.task_schedule = TaskSchedule.TaskSchedule()
+        self.web = Web.Web()
 
     def start(self):
-        self.web.server_start()
+        self.web.start()
 
 
-def main():
-    pass
-
+server = Server()
 
 if __name__ == '__main__':
-    server = Server()
-    server.load_modules()
     server.start()

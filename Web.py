@@ -1,14 +1,15 @@
-from flask import Flask, Blueprint, render_template
-from .view_server import view_server
+'''Web模块主类
+'''
+import flask
 
 
-class ServerStart(object):
+class Web(object):
     def __init__(self):
-        self.app = Flask(__name__)
+        print("Load Web module...")
+        self.app = flask.Flask(__name__)
 
     def start(self):
         self.init_app()
-        self.load_blueprint()
         self.app.run()
 
     def init_app(self):
@@ -17,4 +18,5 @@ class ServerStart(object):
         self.load_blueprint()
 
     def load_blueprint(self):
+        from web.view_server import view_server
         self.app.register_blueprint(view_server, url_prefix='')
