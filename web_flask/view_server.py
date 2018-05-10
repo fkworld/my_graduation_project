@@ -25,3 +25,15 @@ def node_manager():
 def task_manager():
     task_list = server_start.server.task_manager.show_all_task()
     return flask.render_template('task_manager.html', task_list=task_list)
+
+@view_server.route('/use_guide')
+def use_guide():
+    return flask.render_template('use_guide.html')
+
+@view_server.route('/develop_document')
+def develop_document():
+    return flask.render_template('develop_ducument.html')
+
+@view_server.route('/source_code')
+def source_code():
+    return flask.redirect("https://github.com/fkworld/my_graduation_project")

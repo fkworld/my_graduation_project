@@ -52,6 +52,13 @@
                 </ol>
             </nav>
             {% block page_right_body %}
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><a href="{{ url_for('view_server.use_guide') }}">使用指南</a></li>
+                    <li class="list-group-item"><a href="{{ url_for('view_server.develop_document') }}">开发文档</a></li>
+                    <li class="list-group-item"><a href="{{ url_for('view_server.source_code') }}">源码下载</a></li>
+                </ul>
+            </div>
             {% endblock %}
         </div>
     </div>
