@@ -23,7 +23,13 @@ class TaskManager(object):
 
     def show_all_task(self):
         '''
-        获取所有的node信息
+        获取所有的task信息
         '''
         all_task = self.main_task.search_all_task()
         return all_task
+
+    def add_task(self, name, info, parameter):
+        '''
+        添加一个任务
+        '''
+        self.main_task.add_task(name, info, parameter)

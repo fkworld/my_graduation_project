@@ -1,9 +1,59 @@
 {% extends "bootstrap4.html"%}
 
 {% block navbar %}
-<h1>渲染管理系统-demo</h1>
-<a href="/upload">上传文件</a>
-<a href="/node_manager">节点管理</a>
-<a href="/task_manager">任务管理</a>
-<hr>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
+    <div class="container">
+        <a class="navbar-brand" href="/">中国传媒大学 - 渲染管理系统</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="/upload">上传文件</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/node_manager">节点管理</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/task_manager">任务管理</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br> <!-- 这里的br需要想办法去掉 -->
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div id="page_left" class="col-sm-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">渲染管理系统</a></li>
+                    {% block page_left_head %}
+                    {% endblock %}
+                </ol>
+            </nav>
+            {% block page_left_body %}
+            {% endblock %}
+        </div>
+        <div id="page_right" class="col-sm-4">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">公告栏</li>
+                {% block page_right_head %}
+                {% endblock %}
+                </ol>
+            </nav>
+            {% block page_right_body %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
 {% endblock %}

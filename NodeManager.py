@@ -27,3 +27,9 @@ class NodeManager(object):
         '''
         all_node = self.node.search_all_node()
         return all_node
+
+    def add_node(self, name, ip):
+        '''
+        添加一个节点
+        '''
+        self.node.add_node(name, ip)
