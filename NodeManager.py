@@ -13,13 +13,13 @@ class NodeManager(object):
         '''
         初始化数据库
         '''
-        Base.metadata.create_all(modelNode.Engine)
+        modelNode.Base.metadata.create_all(modelNode.Engine)
 
     def drop_db(self):
         '''
         删除所有数据表
         '''
-        Base.metadata.drop_all(modelNode.Engine)
+        modelNode.Base.metadata.drop_all(modelNode.Engine)
 
     def show_all_node(self):
         '''

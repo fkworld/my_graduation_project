@@ -19,3 +19,9 @@ def index():
 def node_manager():
     node_list = server_start.server.node_manager.show_all_node()
     return flask.render_template('node_manager.html', node_list=node_list)
+
+
+@view_server.route('/task_manager')
+def task_manager():
+    task_list = server_start.server.task_manager.show_all_task()
+    return flask.render_template('task_manager.html', task_list=task_list)
