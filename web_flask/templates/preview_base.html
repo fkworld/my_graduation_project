@@ -1,0 +1,15 @@
+{% extends "base.html"%}
+
+
+{% block page_left_body %}
+<div class="row">
+    <div class="col-sm-3" id="preview_left">
+        {% block preview_left %}
+        {% endblock %}
+    </div>
+    <div class="col-sm-9" id="preview_right">
+        {% block preview_right %}
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}

@@ -26,8 +26,8 @@
                 <a data-toggle="collapse" href=#file{{ loop.index }} aria-expanded="false" aria-controls=file{{ loop.index }}>显示全部</a>
             </td>
             <td>
-                <a data-toggle="collapse" href=#jsd-3d{{ loop.index }} aria-expanded="false" aria-controls=jsd-3d{{ loop.index }}>3D显示模型</a>
-                <a href="#">任务结果预览</a>
+                <a data-toggle="collapse" href=#jsd-3d{{ loop.index }} aria-expanded="false" aria-controls=jsd-3d{{ loop.index }}>3D模型预览</a>
+                <a href="{{ url_for('view_server.preview_result') }}">渲染结果预览</a>
             </td>
         </tr>
         <tr>
@@ -67,7 +67,7 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">文件内模型列表：</li>
                             <li class="list-group-item">example：
-                                <a href="#">3D模型预览</a>
+                                <a href="{{ url_for('view_server.preview_3dmodel') }}">3D模型预览</a>
                             </li>
                         </ul>
                     </div>

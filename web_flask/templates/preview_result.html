@@ -1,0 +1,41 @@
+{% extends "preview_base.html"%}
+
+{% block page_left_head %}
+<li class="breadcrumb-item active">渲染结果预览
+</li>
+{% endblock %}
+
+{% block preview_left %}
+<div class="card">
+    <div class="card-header">
+        任务信息
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">信息一</li>
+        <li class="list-group-item">信息二</li>
+        <li class="list-group-item">信息三</li>
+    </ul>
+</div>
+<br>
+<div class="card">
+    <div class="card-header">
+        渲染结果操作
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">操作一</li>
+        <li class="list-group-item">操作二</li>
+        <li class="list-group-item">操作三</li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block preview_right %}
+<div class="card">
+    <div class="card-header">
+        渲染结果显示
+    </div>
+    <div class="card-body">
+        渲染结果图列表
+    </div>
+</div>
+{% endblock %}
