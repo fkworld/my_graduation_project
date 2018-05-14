@@ -5,6 +5,7 @@
 import flask
 
 import server_start
+import formTask
 
 view_server = flask.Blueprint(
     'view_server', __name__, template_folder='templates')
@@ -19,9 +20,9 @@ def index():
 def test():
     node_list = server_start.server.node_manager.show_all_node()
     node = node_list[0]
-    a= flask.url_for('static',filename='example.png')
+    a = flask.url_for('static', filename='example.png')
     print(a)
-    return flask.render_template('preview_node.html',node=node)
+    return flask.render_template('preview_node.html', node=node)
 
 
 @view_server.route('/node_manager')
@@ -58,9 +59,16 @@ def preview_3dmodel():
     '''
     return flask.render_template('preview_3dmodel.html')
 
+
 @view_server.route('/preview_result')
 def preview_result():
     '''预览渲染结果
     实际使用需要传入参数查询
     '''
     return flask.render_template('preview_result.html')
+
+
+@view_server.route('/upload_task', methods=['GET', 'POST'])
+def upload_task():
+    form = formTask.TaskForm()
+    return flask.render_template('upload_task.html', form=form)

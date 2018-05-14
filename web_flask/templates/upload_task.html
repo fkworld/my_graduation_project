@@ -1,0 +1,54 @@
+{% extends "base.html"%}
+
+{% block page_left_head %}
+<li class="breadcrumb-item active">上传任务</a>
+</li>
+{% endblock %}
+
+{% block page_left_body %}
+<form method='POST' enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                {{ form.name.label(class="input-group-text") }}
+            </div>
+            {{ form.name(type="text",class="form-control",placeholder="此项请必填") }}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                {{ form.info.label(class="input-group-text") }}
+            </div>
+            {{ form.info(type="text",class="form-control",placeholder="") }}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                {{ form.parameter.label(class="input-group-text") }}
+            </div>
+            {{ form.parameter(type="text",class="form-control",placeholder="") }}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                {{ form.filename.label(class="input-group-text") }}
+            </div>
+            <div class="custom-file">
+                {{ form.filename(class="custom-file-input",id="file_input") }}
+                <label class="custom-file-label" for="file_input">浏览本地文件</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-3">
+                {{ form.submit(class="form-control btn btn-success disabled") }}
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
