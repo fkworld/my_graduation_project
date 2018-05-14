@@ -12,6 +12,8 @@
             <th scope="col">节点序号</th>
             <th scope="col">节点信息</th>
             <th scope="col">节点操作</th>
+            <th scope="col">节点状态</th>
+            <th scope="col">节点任务列表</th>
         </tr>
     </thead>
     <tbody>
@@ -21,10 +23,22 @@
             <td>
                 <a data-toggle="collapse" href=#{{ loop.index }} aria-expanded="false" aria-controls={{ loop.index }}>显示全部</a>
             </td>
-            <td>这里放一些操作</td>
+            <td>
+                <a data-toggle="collapse" href=#handle{{ loop.index }} aria-expanded="false" aria-controls=handle{{ loop.index }}>显示全部</a>
+            </td>
+            <td>
+                {% if loop.index % 3 == 1 %}
+                <button class="btn btn-success" disabled></button>
+                {% else %}
+                <button class="btn btn-secondary" disabled></button>
+                {% endif %}
+            </td>
+            <td>
+                <a data-toggle="collapse" href=#task{{ loop.index }} aria-expanded="false" aria-controls=task{{ loop.index }}>任务队列长度：N</a>
+            </td>
         </tr>
         <tr>
-            <td colspan="4" style="padding: 0">
+            <td colspan="5" style="padding: 0">
                 <div class="collapse" id={{ loop.index }}>
                     <div class="card">
                         <ul class="list-group list-group-flush">
@@ -38,7 +52,32 @@
             </td>
         </tr>
         <tr>
-            <td colspan="4" style="padding: 0"></td>
+            <td colspan="5" style="padding: 0">
+                <div class="collapse" id=handle{{ loop.index }}>
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">操作列表</li>
+                            <li class="list-group-item">节点重启</li>
+                            <li class="list-group-item">操作二</li>
+                            <li class="list-group-item">操作三</li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5" style="padding: 0">
+                <div class="collapse" id=task{{ loop.index }}>
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">任务列表</li>
+                            <li class="list-group-item">任务一</li>
+                            <li class="list-group-item">任务二</li>
+                            <li class="list-group-item">任务三</li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
