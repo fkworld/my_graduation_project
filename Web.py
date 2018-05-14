@@ -15,6 +15,7 @@ class Web(object):
     def init_app(self):
         self.app.config['SECRET_KEY'] = '42'
         self.app.config['DEBUG'] = True
+        self.app.config['static_floder'] = 'web_flask/static'
         self.load_blueprint()
 
     def load_blueprint(self):

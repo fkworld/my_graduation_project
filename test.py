@@ -1,14 +1,10 @@
-import TaskManager
-import NodeManager
+import server_start
+import flask
 
 
 def main():
-
-    for i in range(10):
-        t = TaskManager.TaskManager()
-        n = NodeManager.NodeManager()
-        t.add_task("test", "test", "test")
-        n.add_node("test", "test")
+    a = flask.url_for('static',filename='example.css')
+    print(a)
 
 
 if __name__ == '__main__':

@@ -17,7 +17,11 @@ def index():
 
 @view_server.route('/test')
 def test():
-    return flask.render_template('preview_result.html')
+    node_list = server_start.server.node_manager.show_all_node()
+    node = node_list[0]
+    a= flask.url_for('static',filename='example.png')
+    print(a)
+    return flask.render_template('preview_node.html',node=node)
 
 
 @view_server.route('/node_manager')

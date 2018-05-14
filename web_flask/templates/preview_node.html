@@ -1,0 +1,42 @@
+{% extends "preview_base.html"%}
+
+{% block page_left_head %}
+<li class="breadcrumb-item active">节点预览
+</li>
+{% endblock %}
+
+{% block preview_left %}
+<div class="card">
+    <div class="card-header">
+        节点信息
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">唯一验证码：<br>{{ node.passcode }}</li>
+        <li class="list-group-item">名称：<br>{{ node.name }}</li>
+        <li class="list-group-item">ip地址：<br>{{ node.ip }}</li>
+        <li class="list-group-item">更新时间：<br>{{ node.update_time }}</li>
+    </ul>
+</div>
+<br>
+<div class="card">
+    <div class="card-header">
+        模型操作
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">操作一</li>
+        <li class="list-group-item">操作二</li>
+        <li class="list-group-item">操作三</li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block preview_right %}
+<div class="card">
+    <div class="card-header">
+        节点显示
+    </div>
+    <div class="card-body">
+        节点显示具体内容
+    </div>
+</div>
+{% endblock %}
