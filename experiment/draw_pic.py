@@ -8,9 +8,10 @@ import numpy
 
 def main():
     x = [3]
-    y1 = [1, 2, 1]
-    y2 = [4, 5, 6]
-    draw_line_chart(x, y1, y2, "y1", "y2", "test")
+    kinds = ['James', 'Durant', 'Kobe']
+    values = [4, 5, 6]
+    # draw_line_chart(x, y1, y2, "y1", "y2", "test")
+    draw_barh(y1, y2, "test")
 
 
 def draw_line_chart(x, y, label_y, title):
@@ -145,6 +146,27 @@ def draw_line_chart(x, y1, y2, label_y1, label_y2, title):
 
     # 添加图例
     plt.legend(loc='upper left')
+
+    # 添加图标题
+    plt.title(title, bbox=dict(
+        facecolor='white', edgecolor='blue', alpha=0.65))
+
+    # 显示
+    plt.show()
+
+
+def draw_barh(kinds, values, title):
+    '''绘制柱状图
+    '''
+
+    # 转换数据
+    kinds = numpy.arange(len(kind))
+    values = numpy.arange()
+
+    plt.barh(y_pos, performance, xerr=error, align='center',
+             alpha=0.4)  # 这里是产生横向柱状图 barh h--horizontal
+    plt.yticks(y_pos, people)
+    plt.xlabel('Performance')
 
     # 添加图标题
     plt.title(title, bbox=dict(
