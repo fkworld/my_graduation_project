@@ -8,7 +8,8 @@ import numpy
 
 def main():
     # draw_ex1_pic()
-    draw_ex3_pic()
+    # draw_ex3_pic()
+    draw_ex4_pic()
 
 
 def draw_ex1_pic():
@@ -28,6 +29,13 @@ def draw_ex3_pic():
                     '渲染过程中无附加条件', '渲染过程中加入死循环', '渲染过程中加入FTP下载进程'], '任务前后CPU利用率变化队列（单位：%）')
     draw_line_chart([y_1_2, y_2_2, y_3_2], 'labelx', [
                     '渲染过程中无附加条件', '渲染过程中加入死循环', '渲染过程中加入FTP下载进程'], '任务前后系统内存变化队列（单位：GB）')
+
+
+def draw_ex4_pic():
+    '''绘制实验4图片
+    '''
+    kinds, values_1_1, values_1_2, values_2_1, values_2_2 = set_ex4_data()
+    draw_barh(kinds, values_1_1, "tt")
 
 
 def set_ex1_data():
@@ -232,18 +240,11 @@ def draw_barh(kinds, values, title):
     '''绘制柱状图
     '''
 
-    # 转换数据
-    kinds = numpy.arange(len(kind))
-    values = numpy.arange()
-
-    plt.barh(y_pos, performance, xerr=error, align='center',
-             alpha=0.4)  # 这里是产生横向柱状图 barh h--horizontal
-    plt.yticks(y_pos, people)
-    plt.xlabel('Performance')
+    # 绘制
+    plt.barh(kinds, values)
 
     # 添加图标题
-    plt.title(title, bbox=dict(
-        facecolor='white', edgecolor='blue', alpha=0.65))
+    plt.title(title)
 
     # 显示
     plt.show()
