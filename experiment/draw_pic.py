@@ -3,34 +3,50 @@
 '''
 
 import matplotlib.pyplot as plt
-plt.rcParams['font.sans-serif'] = ['SimHei']
-plt.rcParams['axes.unicode_minus'] = False
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 设置中文字体
+plt.rcParams['axes.unicode_minus'] = False  # 设置负号
+plt.figure(figsize=(8, 5))  # 设置输出图像大小（单位：英寸） # 实际大小800*500
 import numpy
 
 
 def main():
     draw_ex1_pic()
-    # draw_ex3_pic()
+    draw_ex3_pic()
     # draw_ex4_pic()
 
 
 def draw_ex1_pic():
     '''绘制实验1图片
     '''
-    x, y1, y2, y3, y4 = set_ex1_data()
-    draw_line_chart([y1], 'labelx', ['系统CPU利用率'], 'title')
-    draw_line_chart([y2], 'labelx', ['系统已用内存'], 'title')
-    draw_line_chart([y3, y4], 'labelx', ['磁盘总读个数', '磁盘总写个数'], 'title')
+    y1, y2, y3, y4 = set_ex1_data()
+    draw_line_chart([y1], ['系统CPU利用率'], xlabel='次序',
+                    ylabel='CPU利用率（单位：%）', title='系统CPU利用率变化图', save_filename='ex1_1')
+    draw_line_chart([y2], ['系统已用内存'], xlabel='次序',
+                    ylabel='系统已用内存（单位：MB）', title='系统已用内存变化图', save_filename="ex1_2")
+    draw_line_chart([y3, y4], ['磁盘总读个数', '磁盘总写个数'], xlabel='次序',
+                    ylabel='磁盘读写连接（单位：个）', title='系统磁盘IO变化图', save_filename='ex1_3')
 
 
 def draw_ex3_pic():
     '''绘制实验3图片
     '''
-    kinds, values, x, y_1_1, y_1_2, y_2_1, y_2_2, y_3_1, y_3_2 = set_ex3_data()
-    draw_line_chart([y_1_1, y_2_1, y_3_1], 'labelx', [
-                    '渲染过程中无附加条件', '渲染过程中加入死循环', '渲染过程中加入FTP下载进程'], '任务前后CPU利用率变化队列（单位：%）')
-    draw_line_chart([y_1_2, y_2_2, y_3_2], 'labelx', [
-                    '渲染过程中无附加条件', '渲染过程中加入死循环', '渲染过程中加入FTP下载进程'], '任务前后系统内存变化队列（单位：GB）')
+    kinds, values, y_1_1, y_1_2, y_2_1, y_2_2, y_3_1, y_3_2 = set_ex3_data()
+    draw_line_chart(
+        ylist=[y_1_1, y_2_1, y_3_1],
+        labelylist=['渲染过程中无附加条件', '渲染过程中加入死循环', '渲染过程中加入FTP下载进程'],
+        xlabel='次序',
+        ylabel='系统CPU利用率（单位：%）',
+        title='任务前后CPU利用率变化图',
+        save_filename='ex2_1'
+    )
+    draw_line_chart(
+        ylist=[y_1_2, y_2_2, y_3_2],
+        labelylist=['渲染过程中无附加条件', '渲染过程中加入死循环', '渲染过程中加入FTP下载进程'],
+        xlabel='次序',
+        ylabel='系统已用内存（单位：GB）',
+        title='任务前后系统已用内存变化图',
+        save_filename='ex2_2'
+    )
 
 
 def draw_ex4_pic():
@@ -42,9 +58,8 @@ def draw_ex4_pic():
 
 def set_ex1_data():
     '''设置实验一数据
-    返回值：x,y1,y2,y3,y4
+    返回值：y1,y2,y3,y4
     '''
-    x = [20]
     y1 = [
         10.9,
         10.9,
@@ -133,16 +148,15 @@ def set_ex1_data():
         69670,
         69670
     ]
-    return x, y1, y2, y3, y4
+    return y1, y2, y3, y4
 
 
 def set_ex3_data():
     '''设置实验三数据
-    返回值：kinds, values, x, y_1_1, y_1_2, y_2_1, y_2_2, y_3_1, y_3_2
+    返回值：kinds, values, y_1_1, y_1_2, y_2_1, y_2_2, y_3_1, y_3_2
     '''
     kinds = ["渲染过程中无附加条件", "渲染过程中加入死循环进程", "渲染过程中加入FTP下载进程"]
     values = [42.3, 83.3, 73.4]
-    x = [20]
     y_1_1 = [10, 10, 42, 70, 70, 70, 71, 70,
              70, 67, 10, 10]  # 任务前后CPU利用率变化队列（单位：%）
     # 任务前后系统内存变化队列（单位：GB）
@@ -158,7 +172,7 @@ def set_ex3_data():
     print("y1.len=", len(y_1_1), len(y_1_2))
     print("y2.len=", len(y_2_1), len(y_2_2))
     print("y3.len=", len(y_3_1), len(y_3_2))
-    return kinds, values, x, y_1_1, y_1_2, y_2_1, y_2_2, y_3_1, y_3_2
+    return kinds, values, y_1_1, y_1_2, y_2_1, y_2_2, y_3_1, y_3_2
 
 
 def set_ex4_data():
@@ -174,15 +188,15 @@ def set_ex4_data():
     return kinds, values_1_1, values_1_2, values_2_1, values_2_2
 
 
-def draw_line_chart(ylist, labelx, labelylist, title):
-    '''绘制折线图
+def draw_line_chart(ylist, labelylist, xlabel, ylabel, title, save_filename):
+    """绘制折线图
     参数：
-    x - []
-    ylist - [[]]
-    labelx - string
-    labelylist - [string]
+    ylist - [[]]，y的数据集
+    labelylist - [string]，每一组y数据集的含义（label）
+    xlabel,ylabel - string，坐标轴名称
     title - string
-    '''
+    save_filename - string，保存的文件名
+    """
     # 载入数据
     # 将ylist中的每一项转换成numpy.array格式，外部不变
     for i, y in enumerate(ylist):
@@ -211,11 +225,19 @@ def draw_line_chart(ylist, labelx, labelylist, title):
         plt.plot(xlist[i], y, color=draw_color[i], linewidth=2.5,
                  linestyle=draw_linestyle[i], marker=draw_marker[i], label=labelylist[i])
 
+    # 设置坐标轴名称
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+
+    # 获取最大值
+    x_max = numpy.array([x.max() for x in xlist]).max()
+    y_max = numpy.array([y.max() for y in ylist]).max()
     # 设置边界
-    plt.xlim(0, numpy.array([x.max() for x in xlist]).max() * 1.1)
-    plt.ylim(0, numpy.array([y.max() for y in ylist]).max() * 1.1)
+    plt.xlim(0, x_max * 1.1)
+    plt.ylim(0, y_max * 1.1)
 
     # 设置刻度
+    plt.xticks(numpy.arange(0, x_max + 2, 1))
 
     # 移动轴线
     ax = plt.gca()
@@ -228,14 +250,19 @@ def draw_line_chart(ylist, labelx, labelylist, title):
     ax.spines['left'].set_position(('data', 0))
 
     # 添加图例
-    plt.legend(loc='upper left')
+    plt.legend(loc='best')  # 位置为自动选择
 
     # 添加图标题
-    plt.title(title, bbox=dict(
-        facecolor='white', edgecolor='blue', alpha=0.65))
+    plt.title(title)
+
+    # 保存
+    # 注意要先保存后显示，否则会保存一个空白图片
+    # 在 plt.show() 后实际上已经创建了一个新的空白的图片（坐标轴），这时候你再 plt.savefig() 就会保存这个新生成的空白图片。
+    plt.savefig(save_filename + '.png')
+    plt.clf()  # 保存之后及时清理，否则会在原有图的基础上进行绘制
 
     # 显示
-    plt.show()
+    # plt.show()
 
 
 def draw_barh(kinds, values, title):
