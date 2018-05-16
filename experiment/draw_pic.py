@@ -7,10 +7,14 @@ import numpy
 
 
 def main():
+    draw_ex1_pic()
+
+
+def draw_ex1_pic():
     x, y1, y2, y3, y4 = set_ex1_data()
-    draw_line_chart_single(x, y1, "label", "title")
-    draw_line_chart_single(x, y2, "label", "title")
-    draw_line_chart(x, y3, y4, "label", "label", "title")
+    draw_line_chart(x, [y1], 'labelx', ['系统CPU利用率'], 'title')
+    draw_line_chart(x, [y2], 'labelx', ['系统已用内存'], 'title')
+    draw_line_chart(x, [y3, y4], 'labelx', ['磁盘总读个数', '磁盘总写个数'], 'title')
 
 
 def set_ex1_data():
@@ -139,48 +143,48 @@ def set_ex4_data():
     # 20个高任务复杂度加上80个低任务复杂度的渲染任务队列统计表
     values_2_1 = [588, 443, 383]
     values_2_2 = [100, 1103, 796]
+    return kinds, values_1_1, values_1_2, values_2_1, values_2_2
 
 
-def draw_line_chart_single(x, y, label_y, title):
+def draw_line_chart(x, ylist, labelx, labelylist, title):
     '''绘制折线图
     参数：
-    x,y - []
-    label_y - string
+    x - []
+    ylist - [[]]
+    labelx - string
+    labelylist - [string]
     title - string
     '''
     # 载入数据
-    # 如果x只有一个值n,不学了
+    # 如果x只有一个值n，则重新给x赋值0~n，再+1到1~n+1
+    if(len(x) == 1):
+        x = [i for i in range(x[0])]
+    x = numpy.array(x)
+    x += 1
+    for y in ylist:
+        y = numpy.array(y)
 
-    # 移动轴线
-    ax = plt.gca()
-    # 右边和上边的轴线设置为无
-    ax.spines['right'].set_color('none')
-    ax.spines['top'].set_color('none')
-    ax.xaxis.set_ticks_position('bottom')
-    ax.spines['bottom'].set_position(('data', 0))
-    ax.yaxis.set_ticks_position('left')
-    ax.spines['left'].set_position(('data', 0))
+    # 检验数据
+    print("x=", x)
+    print("ylist=", ylist)
 
-    # 添加图例
-    plt.legend(loc='upper left')
+    # 绘制
+    # 4种linestyle
+    draw_linestyle = ['-', ':', '--', '-.']  # 依次是：直线，点线，虚线，虚线带点
+    # n种marker，选择4种
+    draw_marker = ['o', 'D', '*', 'v']  # 依次是：圆形，棱形，星型，三角型
+    # 选择4种color
+    draw_color = ['blue', 'red', 'green', 'gray']
 
-    # 添加图标题
-    plt.title(title, bbox=dict(
-        facecolor='white', edgecolor='blue', alpha=0.65))
+    for i, y in enumerate(ylist):
+        plt.plot(x, y, color=draw_color[i], linewidth=2.5,
+                 linestyle=draw_linestyle[i], marker=draw_marker[i], label=labelylist[i])
 
-    # 显示
-    plt.show()
+    # 设置边界
+    plt.xlim(0, x.max() * 1.1)
+    plt.ylim(0, numpy.array([numpy.array(y).max() for y in ylist]).max() * 1.1)
 
-
-def draw_line_chart(x, y1, y2, label_y1, label_y2, title):
-    '''绘制折线图
-    参数：
-    x,y1,y2 - []
-    label_y1,label_y2 - string
-    title - string
-    '''
-    # 载入数据
-    # 如果x只有一个值n,不学了
+    # 设置刻度
 
     # 移动轴线
     ax = plt.gca()
