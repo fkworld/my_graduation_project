@@ -7,14 +7,27 @@ import numpy
 
 
 def main():
-    draw_ex1_pic()
+    # draw_ex1_pic()
+    draw_ex3_pic()
 
 
 def draw_ex1_pic():
+    '''绘制实验1图片
+    '''
     x, y1, y2, y3, y4 = set_ex1_data()
     draw_line_chart(x, [y1], 'labelx', ['系统CPU利用率'], 'title')
     draw_line_chart(x, [y2], 'labelx', ['系统已用内存'], 'title')
     draw_line_chart(x, [y3, y4], 'labelx', ['磁盘总读个数', '磁盘总写个数'], 'title')
+
+
+def draw_ex3_pic():
+    '''绘制实验3图片
+    '''
+    kinds, values, x, y_1_1, y_1_2, y_2_1, y_2_2, y_3_1, y_3_2 = set_ex3_data()
+    draw_line_chart([y_1_1, y_2_1, y_3_1], 'labelx', [
+                    '渲染过程中无附加条件', '渲染过程中加入死循环', '渲染过程中加入FTP下载进程'], '任务前后CPU利用率变化队列（单位：%）')
+    draw_line_chart([y_1_2, y_2_2, y_3_2], 'labelx', [
+                    '渲染过程中无附加条件', '渲染过程中加入死循环', '渲染过程中加入FTP下载进程'], '任务前后系统内存变化队列（单位：GB）')
 
 
 def set_ex1_data():
@@ -115,6 +128,7 @@ def set_ex1_data():
 
 def set_ex3_data():
     '''设置实验三数据
+    返回值：kinds, values, x, y_1_1, y_1_2, y_2_1, y_2_2, y_3_1, y_3_2
     '''
     kinds = ["渲染过程中无附加条件", "渲染过程中加入死循环进程", "渲染过程中加入FTP下载进程"]
     values = [42.3, 83.3, 73.4]
@@ -126,10 +140,14 @@ def set_ex3_data():
     y_2_1 = [10, 10, 45, 70, 100, 100, 100, 100, 100,
              100, 100, 100, 71, 70, 70, 70, 72, 67, 15, 10]
     y_2_2 = [5.0, 5.0, 9.1, 9.1, 15.5, 15.5, 15.5, 15.5, 15.5, 15.5,
-             15.5, 15.5, 9.0, 9.2, 9.2, 9.2, 9.2, 9.2, 9.2, 5.1, 5.1]
+             15.5, 15.5, 9.0, 9.2, 9.2, 9.2, 9.2, 9.2, 5.1, 5.1]
     y_3_1 = [10, 10, 41, 75, 80, 81, 80, 82, 83, 80, 80, 68, 40, 10]
     y_3_2 = [5.0, 5.0, 9.1, 11.1, 10.5, 10.5,
-             10.6, 10.6, 10.6, 10.6, 10.6, 9.1, 5.1]
+             10.6, 10.6, 10.6, 10.6, 10.6, 9.1, 5.1, 5.1]
+    # 验证数据是否合理
+    print("y1.len=", len(y_1_1), len(y_1_2))
+    print("y2.len=", len(y_2_1), len(y_2_2))
+    print("y3.len=", len(y_3_1), len(y_3_2))
     return kinds, values, x, y_1_1, y_1_2, y_2_1, y_2_2, y_3_1, y_3_2
 
 
@@ -146,7 +164,7 @@ def set_ex4_data():
     return kinds, values_1_1, values_1_2, values_2_1, values_2_2
 
 
-def draw_line_chart(x, ylist, labelx, labelylist, title):
+def draw_line_chart(ylist, labelx, labelylist, title):
     '''绘制折线图
     参数：
     x - []
@@ -156,16 +174,19 @@ def draw_line_chart(x, ylist, labelx, labelylist, title):
     title - string
     '''
     # 载入数据
-    # 如果x只有一个值n，则重新给x赋值0~n，再+1到1~n+1
-    if(len(x) == 1):
-        x = [i for i in range(x[0])]
-    x = numpy.array(x)
-    x += 1
+    # 将ylist中的每一项转换成numpy.array格式，外部不变
+    for i, y in enumerate(ylist):
+        ylist[i] = numpy.array(y)
+    # 根据ylist中的每一项的个数写入xlist
+    xlist = []
     for y in ylist:
-        y = numpy.array(y)
+        x = [i for i in range(y.size)]
+        x = numpy.array(x)
+        x += 1  # 从1开始
+        xlist.append(x)
 
     # 检验数据
-    print("x=", x)
+    print("xlist=", xlist)
     print("ylist=", ylist)
 
     # 绘制
@@ -177,12 +198,12 @@ def draw_line_chart(x, ylist, labelx, labelylist, title):
     draw_color = ['blue', 'red', 'green', 'gray']
 
     for i, y in enumerate(ylist):
-        plt.plot(x, y, color=draw_color[i], linewidth=2.5,
+        plt.plot(xlist[i], y, color=draw_color[i], linewidth=2.5,
                  linestyle=draw_linestyle[i], marker=draw_marker[i], label=labelylist[i])
 
     # 设置边界
-    plt.xlim(0, x.max() * 1.1)
-    plt.ylim(0, numpy.array([numpy.array(y).max() for y in ylist]).max() * 1.1)
+    plt.xlim(0, numpy.array([x.max() for x in xlist]).max() * 1.1)
+    plt.ylim(0, numpy.array([y.max() for y in ylist]).max() * 1.1)
 
     # 设置刻度
 
