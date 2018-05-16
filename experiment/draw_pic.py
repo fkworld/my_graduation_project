@@ -7,14 +7,109 @@ import numpy
 
 
 def main():
-    x = [3]
-    kinds = ['James', 'Durant', 'Kobe']
-    values = [4, 5, 6]
-    # draw_line_chart(x, y1, y2, "y1", "y2", "test")
-    draw_barh(y1, y2, "test")
+    x, y1, y2, y3, y4 = set_ex1_data()
+    draw_line_chart_single(x, y1, "label", "title")
+    draw_line_chart_single(x, y2, "label", "title")
+    draw_line_chart(x, y3, y4, "label", "label", "title")
 
 
-def draw_line_chart(x, y, label_y, title):
+def set_ex1_data():
+    '''设置实验一数据
+    返回值：x,y1,y2,y3,y4
+    '''
+    x = [20]
+    y1 = [
+        10.9,
+        10.9,
+        10.9,
+        10.8,
+        10.9,
+        11.0,
+        25.5,
+        73.8,
+        74.0,
+        74.1,
+        77.6,
+        73.5,
+        77.1,
+        70.4,
+        46.0,
+        10.9,
+        10.9,
+        11.0,
+        10.9,
+        10.9
+    ]
+    y2 = [
+        5161,
+        5149,
+        5169,
+        5180,
+        5191,
+        5174,
+        9106,
+        9098,
+        9099,
+        9107,
+        9111,
+        9111,
+        9113,
+        9117,
+        9123,
+        5313,
+        5383,
+        5305,
+        5371,
+        5341
+    ]
+    y3 = [
+        723739,
+        723741,
+        724190,
+        724281,
+        724530,
+        724643,
+        724659,
+        724678,
+        724643,
+        724656,
+        724648,
+        724649,
+        724647,
+        724648,
+        724712,
+        724888,
+        724394,
+        724678,
+        724976,
+        724504
+    ]
+    y4 = [
+        69584,
+        69584,
+        69584,
+        69584,
+        69584,
+        69584,
+        69665,
+        69651,
+        69653,
+        69659,
+        69644,
+        69676,
+        69678,
+        69679,
+        69688,
+        69679,
+        69670,
+        69670,
+        69670,
+        69670
+    ]
+    return x, y1, y2, y3, y4
+
+
+def draw_line_chart_single(x, y, label_y, title):
     '''绘制折线图
     参数：
     x,y - []
@@ -26,6 +121,7 @@ def draw_line_chart(x, y, label_y, title):
     if(len(x) == 1):
         x = [i for i in range(x[0])]
     x = numpy.array(x)
+    x = x + 1
     y = numpy.array(y)
 
     # 检验数据
@@ -94,6 +190,7 @@ def draw_line_chart(x, y1, y2, label_y1, label_y2, title):
     if(len(x) == 1):
         x = [i for i in range(x[0])]
     x = numpy.array(x)
+    x += 1
     y1 = numpy.array(y1)
     y2 = numpy.array(y2)
     y = y1 + y2  # 绘制数据
