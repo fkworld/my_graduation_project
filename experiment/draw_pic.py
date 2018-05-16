@@ -3,16 +3,17 @@
 '''
 
 import matplotlib.pyplot as plt
+import numpy
+
 plt.rcParams['font.sans-serif'] = ['SimHei']  # 设置中文字体
 plt.rcParams['axes.unicode_minus'] = False  # 设置负号
 plt.figure(figsize=(8, 5))  # 设置输出图像大小（单位：英寸） # 实际大小800*500
-import numpy
 
 
 def main():
     draw_ex1_pic()
     draw_ex3_pic()
-    # draw_ex4_pic()
+    draw_ex4_pic()
 
 
 def draw_ex1_pic():
@@ -47,13 +48,21 @@ def draw_ex3_pic():
         title='任务前后系统已用内存变化图',
         save_filename='ex2_2'
     )
+    draw_barh(kinds, values, '渲染时长（单位：s）', '平均渲染时长对比图', 'ex2_3')
 
 
 def draw_ex4_pic():
     '''绘制实验4图片
     '''
     kinds, values_1_1, values_1_2, values_2_1, values_2_2 = set_ex4_data()
-    draw_barh(kinds, values_1_1, "tt")
+    draw_barh(kinds, values_1_1, "渲染任务队列完成时间（单位：s）",
+              "渲染任务队列一完成时间对比图", "ex4_1")
+    draw_barh(kinds, values_1_2, "主控节点通信次数（单位：次）",
+              "渲染任务队列一主控节点通信次数对比图", "ex4_2")
+    draw_barh(kinds, values_2_1, "渲染任务队列完成时间（单位：s）",
+              "渲染任务队列二完成时间对比图", "ex4_3")
+    draw_barh(kinds, values_2_2, "主控节点通信次数（单位：次）",
+              "渲染任务队列二主控节点通信次数对比图", "ex4_4")
 
 
 def set_ex1_data():
@@ -178,7 +187,7 @@ def set_ex3_data():
 def set_ex4_data():
     '''设置实验四数据
     '''
-    kinds = ["FIFO算法", "分级负载均衡算法", "条件分级负载均衡算法"]
+    kinds = ["FIFO", "分级负载均衡", "条件分级负载均衡"]
     # 100个任务复杂度相同的渲染任务队列统计表
     values_1_1 = [417, 334, 315]  # 渲染队列整体完成时间（单位秒）
     values_1_2 = [100, 696, 651]  # 主控节点通信次数（单位次）
@@ -265,18 +274,35 @@ def draw_line_chart(ylist, labelylist, xlabel, ylabel, title, save_filename):
     # plt.show()
 
 
-def draw_barh(kinds, values, title):
+def draw_barh(kinds, values, ylabel, title, save_filename):
     '''绘制柱状图
     '''
 
     # 绘制
-    plt.barh(kinds, values)
+    # 还是改成了bar()，barh()函数的资料太少了
+    plt.bar(kinds, values, width=0.3, alpha=0.8)
 
     # 添加图标题
     plt.title(title)
 
+    # 设置坐标轴名称
+    plt.ylabel(ylabel)
+
+    # 设置边界
+    # 获取最大值
+    value_max = numpy.array(values).max()
+    # 设置边界
+    plt.xlim(0, value_max * 1.1)
+
+    # 自动改变大小，我也不知道为什么要加。
+    plt.autoscale()
+
+    # 保存，同上
+    plt.savefig(save_filename + '.png')
+    plt.clf()
+
     # 显示
-    plt.show()
+    # plt.show()
 
 
 if __name__ == '__main__':
