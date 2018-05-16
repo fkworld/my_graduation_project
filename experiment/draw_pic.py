@@ -3,22 +3,24 @@
 '''
 
 import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['axes.unicode_minus'] = False
 import numpy
 
 
 def main():
-    # draw_ex1_pic()
+    draw_ex1_pic()
     # draw_ex3_pic()
-    draw_ex4_pic()
+    # draw_ex4_pic()
 
 
 def draw_ex1_pic():
     '''绘制实验1图片
     '''
     x, y1, y2, y3, y4 = set_ex1_data()
-    draw_line_chart(x, [y1], 'labelx', ['系统CPU利用率'], 'title')
-    draw_line_chart(x, [y2], 'labelx', ['系统已用内存'], 'title')
-    draw_line_chart(x, [y3, y4], 'labelx', ['磁盘总读个数', '磁盘总写个数'], 'title')
+    draw_line_chart([y1], 'labelx', ['系统CPU利用率'], 'title')
+    draw_line_chart([y2], 'labelx', ['系统已用内存'], 'title')
+    draw_line_chart([y3, y4], 'labelx', ['磁盘总读个数', '磁盘总写个数'], 'title')
 
 
 def draw_ex3_pic():
