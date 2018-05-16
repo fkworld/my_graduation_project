@@ -109,6 +109,26 @@ def set_ex1_data():
     return x, y1, y2, y3, y4
 
 
+def set_ex3_data():
+    '''设置实验三数据
+    '''
+    kinds = ["渲染过程中无附加条件", "渲染过程中加入死循环进程", "渲染过程中加入FTP下载进程"]
+    values = [42.3, 83.3, 73.4]
+    x = [20]
+    y_1_1 = [10, 10, 42, 70, 70, 70, 71, 70,
+             70, 67, 10, 10]  # 任务前后CPU利用率变化队列（单位：%）
+    # 任务前后系统内存变化队列（单位：GB）
+    y_1_2 = [5.1, 5.1, 9.0, 9.1, 9.1, 9.1, 9.1, 9.1, 9.1, 9.2, 5.2, 5.2]
+    y_2_1 = [10, 10, 45, 70, 100, 100, 100, 100, 100,
+             100, 100, 100, 71, 70, 70, 70, 72, 67, 15, 10]
+    y_2_2 = [5.0, 5.0, 9.1, 9.1, 15.5, 15.5, 15.5, 15.5, 15.5, 15.5,
+             15.5, 15.5, 9.0, 9.2, 9.2, 9.2, 9.2, 9.2, 9.2, 5.1, 5.1]
+    y_3_1 = [10, 10, 41, 75, 80, 81, 80, 82, 83, 80, 80, 68, 40, 10]
+    y_3_2 = [5.0, 5.0, 9.1, 11.1, 10.5, 10.5,
+             10.6, 10.6, 10.6, 10.6, 10.6, 9.1, 5.1]
+    return kinds, values, x, y_1_1, y_1_2, y_2_1, y_2_2, y_3_1, y_3_2
+
+
 def draw_line_chart_single(x, y, label_y, title):
     '''绘制折线图
     参数：
@@ -117,45 +137,7 @@ def draw_line_chart_single(x, y, label_y, title):
     title - string
     '''
     # 载入数据
-    # 如果x只有一个值n，则重新给x赋值0~n
-    if(len(x) == 1):
-        x = [i for i in range(x[0])]
-    x = numpy.array(x)
-    x = x + 1
-    y = numpy.array(y)
-
-    # 检验数据
-    print('x=', x)
-    print('y=', y)
-
-    # 绘制
-    plt.plot(x, y, color="blue", linewidth=2.5,
-             linestyle="-", marker="o", label=label_y)
-    '''4种linestyle
-    - 直线
-    -- 虚线
-    -. 虚线带点
-    : 点线
-    '''
-    '''n多种marker，列举几种常用的
-    o circle marker
-    D,d diamond marker
-    * star marker
-    v triangle_down marker
-    + plus marker
-    x x marker
-    '''
-
-    # 设置边界
-    plt.xlim(0, x.max() + 1)
-    plt.ylim(0, y.max() + 1)
-
-    # 设置刻度
-    plt.xticks(x)
-    plt.yticks([y.min(), y.max()])
-
-    # 设置刻度标签
-    # 暂时用不到，不学了
+    # 如果x只有一个值n,不学了
 
     # 移动轴线
     ax = plt.gca()
@@ -186,50 +168,7 @@ def draw_line_chart(x, y1, y2, label_y1, label_y2, title):
     title - string
     '''
     # 载入数据
-    # 如果x只有一个值n，则重新给x赋值0~n
-    if(len(x) == 1):
-        x = [i for i in range(x[0])]
-    x = numpy.array(x)
-    x += 1
-    y1 = numpy.array(y1)
-    y2 = numpy.array(y2)
-    y = y1 + y2  # 绘制数据
-
-    # 检验数据
-    print('x=', x)
-    print('y1=', y1)
-    print('y2=', y2)
-
-    # 绘制
-    plt.plot(x, y1, color="blue", linewidth=2.5,
-             linestyle="-", marker="o", label=label_y1)
-    plt.plot(x, y2, color="red", linewidth=2.5,
-             linestyle="--", marker="D", label=label_y2)
-    '''4种linestyle
-    - 直线
-    -- 虚线
-    -. 虚线带点
-    : 点线
-    '''
-    '''n多种marker，列举几种常用的
-    o circle marker
-    D,d diamond marker
-    * star marker
-    v triangle_down marker
-    + plus marker
-    x x marker
-    '''
-
-    # 设置边界
-    plt.xlim(0, x.max() * 1.1)
-    plt.ylim(0, y.max() * 1.1)
-
-    # 设置刻度
-    plt.xticks(x)
-    plt.yticks([y.min(), y.max()])
-
-    # 设置刻度标签
-    # 暂时用不到，不学了
+    # 如果x只有一个值n,不学了
 
     # 移动轴线
     ax = plt.gca()
