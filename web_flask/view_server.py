@@ -5,7 +5,7 @@
 import flask
 
 import server_start
-import formTask
+import web_flask.formTask
 
 view_server = flask.Blueprint(
     'view_server', __name__, template_folder='templates')
@@ -70,5 +70,5 @@ def preview_result():
 
 @view_server.route('/upload_task', methods=['GET', 'POST'])
 def upload_task():
-    form = formTask.TaskForm()
+    form = web_flask.formTask.TaskForm()
     return flask.render_template('upload_task.html', form=form)

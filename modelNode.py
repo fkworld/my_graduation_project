@@ -9,7 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()  # 创建对象的基类
-Engine = create_engine('sqlite:///Node.db', encoding='utf-8')
+Engine = create_engine('sqlite:///database/Node.db', encoding='utf-8')
 Session = sessionmaker(bind=Engine)
 session = Session()
 
