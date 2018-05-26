@@ -8,7 +8,7 @@ class Web(object):
     def __init__(self):
         print("Load Web module...")
         self.app = Flask(__name__)
-        self.socketio = SocketIO(self.app)
+        self.socketio = SocketIO(self.app, async_mode='eventlet')
 
     def start(self):
         self.init_app()
@@ -24,3 +24,8 @@ class Web(object):
     def load_blueprint(self):
         from web_flask.view_server import view_server
         self.app.register_blueprint(view_server, url_prefix='')
+
+    def get_socketio(self):
+        '''获取到flask中定义的socketio上下文
+        '''
+        return self.socketio

@@ -37,5 +37,19 @@ class Server(object):
 server = Server()
 server.load_modules()
 
+socketio = server.web.get_socketio()
+
+
+@socketio.on_error()
+def default_error(e):
+    print('Error')
+
+
+@socketio.on('message')
+def connect(message):
+    print(11111)
+    print('Get message', message)
+
+
 if __name__ == '__main__':
     server.start()

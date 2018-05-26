@@ -3,19 +3,13 @@
 '''
 
 import flask
+from flask_socketio import emit
 
 import server_start
 import web_flask.formTask
 
 view_server = flask.Blueprint(
     'view_server', __name__, template_folder='templates')
-
-socketio = server_start.server.web.socketio
-
-@socketio.on('message')
-def handle_message(message):
-    print("1111")
-    print('received message:　' + message)
 
 
 @view_server.route('/')
