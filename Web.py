@@ -13,7 +13,7 @@ class Web(object):
     def start(self):
         self.init_app()
         # self.app.run()
-        self.socketio.run(self.app, port=5001)
+        self.socketio.run(self.app, port=5000)
 
     def init_app(self):
         self.app.config['SECRET_KEY'] = '42'
