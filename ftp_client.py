@@ -1,5 +1,7 @@
 from ftplib import FTP
 
+import NodeConnect
+
 
 def main():
     ftp = FTP()
@@ -12,5 +14,10 @@ def main():
     fp.close()
 
 
+def main2():
+    client = NodeConnect.NodeConnect()
+    client.init_ftp_client()
+    client.ftp_download_file('ftp_storage_files/README.md','ftp_download_files/download2.md')
+
 if __name__ == '__main__':
-    main()
+    main2()
