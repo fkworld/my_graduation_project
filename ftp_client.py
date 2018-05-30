@@ -6,7 +6,7 @@ import NodeConnect
 def main():
     ftp = FTP()
     ftp.connect('127.0.0.1', 2121)
-    ftp.login()
+    ftp.login('user', '12345')
     bufsize = 1024
     fp = open("ftp_download_files/download.md", 'wb')
     ftp.retrbinary('RETR ' + "ftp_storage_files/README.md", fp.write, bufsize)
@@ -17,7 +17,9 @@ def main():
 def main2():
     client = NodeConnect.NodeConnect()
     client.init_ftp_client()
-    client.ftp_download_file('ftp_storage_files/README.md','ftp_download_files/download2.md')
+    # client.ftp_download_file('ftp_storage_files/README.md','ftp_download_files/download2.md')
+    client.ftp_upload_file('ftp_storage_files/upload.md', 'download.md')
+
 
 if __name__ == '__main__':
     main2()
