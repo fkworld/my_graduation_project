@@ -9,10 +9,15 @@ class NodeConnect(object):
         print("Load NodeConnect module...")
 
     def init_ftp_client(self):
+        '''初始化ftp client
+        - self.ftp_file_path 作为client的文件存储根路径
+        '''
         self.ftp = FTP()
         self.ftp.connect('127.0.0.1', 2121)
-        self.ftp.login('user', '12345')
-        self.ftp_file_path = "ftp_download_files/"
+        self.user = 'user'
+        self.passwd = '12345'
+        self.ftp.login(self.user, self.passwd)
+        self.ftp_file_path = 'ftp_download_files/'
 
     def ftp_download_file(self, remotepath, localpath, bufsize=1024):
         '''从FTP服务器上下载文件
