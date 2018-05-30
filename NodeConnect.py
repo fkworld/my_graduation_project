@@ -12,12 +12,17 @@ class NodeConnect(object):
         '''初始化ftp client
         - self.ftp_file_path 作为client的文件存储根路径
         '''
-        self.ftp = FTP()
-        self.ftp.connect('127.0.0.1', 2121)
-        self.user = 'user'
-        self.passwd = '12345'
-        self.ftp.login(self.user, self.passwd)
+        # 一些初始化的配置信息
+        ftp_host = '127.0.0.1'
+        ftp_port = 2121
+        ftp_user = 'user'
+        ftp_passwd = '12345'
+        # 一些整体配置信息
         self.ftp_file_path = 'ftp_download_files/'
+
+        self.ftp = FTP()
+        self.ftp.connect(ftp_host, ftp_port)
+        self.ftp.login(ftp_user, ftp_passwd)
 
     def ftp_download_file(self, remotepath, localpath, bufsize=1024):
         '''从FTP服务器上下载文件
