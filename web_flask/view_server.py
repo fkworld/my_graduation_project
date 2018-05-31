@@ -2,7 +2,7 @@
 针对server角色的蓝图
 '''
 
-from flask import Blueprint, render_template, url_for, request, redirect
+from flask import Blueprint, render_template, url_for, request, redirect, session
 from flask_socketio import emit
 import os
 
@@ -73,7 +73,7 @@ def preview_result():
 @view_server.route('/upload_task', methods=['GET', 'POST'])
 def upload_task():
     form = web_flask.formTask.TaskForm()
-    print("1111111")
+    print("获取文件的唯一标识符")
     print(request)
     return render_template('upload_task.html', form=form)
 
@@ -88,11 +88,34 @@ def upload_task_pieces():
     filename = '%s%s' % (task, chunk)  # 构造该分片的唯一标识符
 
     upload_file = request.files['file']
-    upload_file.save('/upload/',filename)  # 保存分片到本地
+    upload_file.save('upload/'+filename)  # 保存分片到本地
     return redirect(url_for("view_server.upload_task"))
 
 
 @view_server.route('/upload_task/upload_success', methods=['GET', 'POST'])
 def upload_task_success():
+    '''文件所有分片上传后调用
+    '''
     print("upload_success")
+    task = request.args.get('task_id')
+    ext = request.args.get('ext', '')
+    upload_type = request.args.get('type')
+    print(upload_type, ext)
+    if len(ext) == 0 and upload_type:
+        ext = upload_type.split('/')[1]
+    print(ext)
+    ext = '' if len(ext) == 0 else '.%s' % ext      # 构建文件后缀名
+    chunk = 0
+    with open('upload/%s%s' % ("newfilename", ext), 'wb') as target_file:  # 创建新文件
+        while True:
+            try:
+                filename = 'upload/%s%d' % (task, chunk)
+                source_file = open(filename, 'rb')  # 按序打开每个分片
+                # 读取分片内容写入新文件
+                target_file.write(source_file.read())
+                source_file.close()
+            except IOError:
+                break
+            chunk += 1
+            os.remove(filename)                     # 删除该分片，节约空间
     return redirect(url_for("view_server.upload_task"))
