@@ -73,8 +73,13 @@ def preview_result():
 @view_server.route('/upload_task', methods=['GET', 'POST'])
 def upload_task():
     form = web_flask.formTask.TaskForm()
-    print("获取文件的唯一标识符")
-    print(request)
+    if form.validate_on_submit():
+        task_m = server_start.server.task_manager
+        name = form.name.data
+        info = form.info.data
+        parameter = form.parameter.data
+        task_m.add_task(name, info, parameter)
+        return redirect(url_for("view_server.task_manager"))
     return render_template('upload_task.html', form=form)
 
 
