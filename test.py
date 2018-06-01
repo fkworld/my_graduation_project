@@ -1,5 +1,9 @@
+import NodeSourceManager
+
 def main():
-    print("哈哈哈")
+    s = NodeSourceManager.NodeSourceManager()
+    s.init_blender_path()
+    s.run_blender("untitled.blend")
 
 
 if __name__ == '__main__':
