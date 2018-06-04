@@ -2,6 +2,8 @@
 以server方式启动系统
 '''
 
+from flask_socketio import emit
+
 import NodeCheck
 import NodeConnect
 import NodeManager
@@ -49,6 +51,25 @@ def default_error(e):
 def connect(message):
     print(11111)
     print('Get message', message)
+
+
+'''
+fake_server
+'''
+
+
+@socketio.on('game.ready')
+def game_ready(json):
+    '''服务器接收到cmd'game.ready'，表示客户端游戏已经准备好了
+    返回值：cmd'onStart'，通知客户端可以开始游戏
+    '''
+    print('get a game.ready message, and json=', str(json))
+    emit('onStart', json, broadcast=True)
+
+
+@socketio.on('game.test')
+def gametest(message):
+    print('Get a test message', message)
 
 
 if __name__ == '__main__':

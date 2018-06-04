@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>test</title>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript" charset="utf-8">
+        var socket = io.connect("ws://127.0.0.1:5000", {
+            transports: ['websocket']
+        })
+        socket.on('onStart', function (json) {
+            console.log(json)
+        })
+    </script>
+</body>
+
+</html>
