@@ -9,6 +9,9 @@ import os
 import server_start
 import web_flask.formTask
 
+WEB_UPLOAD = 'file_system/web_upload/'
+WEB_UPLOAD_TEMP = 'file_system/web_upload_temp/'
+
 TM = server_start.server.task_manager
 
 view_server = Blueprint(
@@ -80,55 +83,77 @@ def preview_result():
 
 @view_server.route('/upload_task', methods=['GET', 'POST'])
 def upload_task():
+    """上传任务，包括任务信息和任务源文件
+    
+    Returns:
+        render_template()
+    """
+
     form = web_flask.formTask.TaskForm()
     if form.validate_on_submit():
-        task_m = server_start.server.task_manager
         name = form.name.data
         info = form.info.data
         parameter = form.parameter.data
-        task_m.add_task(name, info, parameter)
+        TM.add_task(name, info, parameter)
         return redirect(url_for("view_server.task_manager"))
     return render_template('upload_task.html', form=form)
 
 
 @view_server.route('/upload_task/upload_pieces', methods=['GET', 'POST'])
 def upload_task_pieces():
-    '''文件的一个分片上传后调用
-    '''
-    print("upload_pieces")
-    task = request.form.get('task_id')  # 获取文件的唯一标识符
-    chunk = request.form.get('chunk', 0)  # 获取该分片在所有分片中的序号
-    filename = '%s%s' % (task, chunk)  # 构造该分片的唯一标识符
+    """文件的一个分片上传后调用
 
+    Returns:
+        redirect()
+    """
+    # 获取文件的唯一标识符
+    task = request.form.get('task_id')
+    # 获取该分片在所有分片中的序号
+    chunk = request.form.get('chunk', 0)
+    # 获取该分片的file
     upload_file = request.files['file']
-    upload_file.save('upload/' + filename)  # 保存分片到本地
+    # 构造filename和save_path
+    filename = '%s%s' % (task, chunk)
+    save_path = WEB_UPLOAD_TEMP + task + '/'
+    if(not os.path.exists(save_path)):
+        os.makedirs(save_path)
+    # 保存分片到本地
+    upload_file.save(save_path + filename)
     return redirect(url_for("view_server.upload_task"))
 
 
 @view_server.route('/upload_task/upload_success', methods=['GET', 'POST'])
 def upload_task_success():
-    '''文件所有分片上传后调用
-    '''
-    print("upload_success")
+    """文件所有分片上传后调用
+
+    Returns:
+        redirect()
+    """
+    # 获取文件唯一标识符
     task = request.args.get('task_id')
+    # 获取文件后缀名和文件类型
     ext = request.args.get('ext', '')
     upload_type = request.args.get('type')
-    print(upload_type, ext)
+    # 构建文件后缀名
     if len(ext) == 0 and upload_type:
         ext = upload_type.split('/')[1]
-    print(ext)
-    ext = '' if len(ext) == 0 else '.%s' % ext      # 构建文件后缀名
+    ext = '' if len(ext) == 0 else '.%s' % ext
+    # 起始分片
     chunk = 0
-    with open('upload/%s%s' % ("newfilename", ext), 'wb') as target_file:  # 创建新文件
+    with open(WEB_UPLOAD + '%s%s' % (task, ext), 'wb') as target_file:  # 创建新文件
         while True:
             try:
-                filename = 'upload/%s%d' % (task, chunk)
+                filename = WEB_UPLOAD_TEMP + '%s/%s%d' % (task, task, chunk)
                 source_file = open(filename, 'rb')  # 按序打开每个分片
                 # 读取分片内容写入新文件
                 target_file.write(source_file.read())
                 source_file.close()
             except IOError:
                 break
+            # 分片序号+1
             chunk += 1
-            os.remove(filename)                     # 删除该分片，节约空间
+            # 删除该分片
+            os.remove(filename)
+        # 删除该分片所在的文件夹
+        os.rmdir(WEB_UPLOAD_TEMP + '%s' % (task) + '/')
     return redirect(url_for("view_server.upload_task"))
