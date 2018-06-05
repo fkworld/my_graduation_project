@@ -1,11 +1,7 @@
-{% extends "base.html"%}
-
-{% block page_left_head %}
+{% extends "base.html"%} {% block page_left_head %}
 <li class="breadcrumb-item active">任务管理</a>
 </li>
-{% endblock %}
-
-{% block page_left_body %}
+{% endblock %} {% block page_left_body %}
 <table class="table table-hover">
     <thead class="thead-dark">
         <tr>
@@ -28,6 +24,7 @@
             <td>
                 <a data-toggle="collapse" href=#jsd-3d{{ loop.index }} aria-expanded="false" aria-controls=jsd-3d{{ loop.index }}>3D模型预览</a>
                 <a href="{{ url_for('view_server.preview_result') }}">渲染结果预览</a>
+                <a href="{{ url_for('view_server.task_manager_add_in_queue',task_id=task.index) }}">添加进任务队列</a>
             </td>
         </tr>
         <tr>

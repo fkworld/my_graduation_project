@@ -9,6 +9,8 @@ import os
 import server_start
 import web_flask.formTask
 
+TM = server_start.server.task_manager
+
 view_server = Blueprint(
     'view_server', __name__, template_folder='templates')
 
@@ -35,8 +37,14 @@ def node_manager():
 
 @view_server.route('/task_manager')
 def task_manager():
-    task_list = server_start.server.task_manager.show_all_task()
+    task_list = TM.show_all_task()
     return render_template('task_manager.html', task_list=task_list)
+
+
+@view_server.route('/task_manager/<task_id>/add_in_queue')
+def task_manager_add_in_queue(task_id):
+    TM.add_task_in_queue(task_id)
+    return redirect(url_for("view_server.task_manager"))
 
 
 @view_server.route('/use_guide')
@@ -93,7 +101,7 @@ def upload_task_pieces():
     filename = '%s%s' % (task, chunk)  # 构造该分片的唯一标识符
 
     upload_file = request.files['file']
-    upload_file.save('upload/'+filename)  # 保存分片到本地
+    upload_file.save('upload/' + filename)  # 保存分片到本地
     return redirect(url_for("view_server.upload_task"))
 
 

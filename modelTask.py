@@ -4,9 +4,11 @@
 这里作为demo只有一个主任务级
 '''
 
-import hashlib
 import datetime
-from sqlalchemy import create_engine, Column, Integer, String, Text
+import hashlib
+import queue
+
+from sqlalchemy import Column, Integer, String, Text, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -79,11 +81,26 @@ class MainTask(Base):
         session.commit()
 
     def search_all_task(self):
-        '''
-        查询并返回全部任务信息
-        返回值：[Node]
-        '''
+        """查询所有任务
+
+        Returns:
+            list(MainTask()) -- 所有任务列表
+        """
+
         result = session.query(MainTask).all()
+        return result
+
+    def search_task_by_id(self, id):
+        """根据id查询task
+
+        Arguments:
+            id {number} -- 待查询的id
+
+        Returns:
+            MainTask() -- 查询结果
+        """
+
+        result = session.query(MainTask).filter_by(index=id).one()
         return result
 
     # 将obj文件转换成js文件
@@ -91,3 +108,32 @@ class MainTask(Base):
         from subprocess import Popen
         cmd = 'python jObj.py -i ' + obj_filepath + ' -o out/test.js'
         Popen(cmd).wait()
+
+
+class TaskQueue(object):
+    """任务队列类
+    任务队列最好使用redis写入，这里demo阶段直接保存在内存中
+    """
+
+    def __init__(self):
+        """[初始化一个无限制的队列]
+        """
+        self.queue_name = 'test_queue'
+        self.queue = queue.Queue(maxsize=0)
+
+    def put_main_task_in_queue(self, main_task):
+        """[将任务放入任务队列中]
+
+        Arguments:
+            main_task {[type]} -- [description]
+        """
+        self.queue.put_nowait(main_task)
+
+    def get_main_task_in_queue(self):
+        """[从队列中取任务]
+
+        Returns:
+            [MainTask()] -- [一个主任务类的实例]
+        """
+        main_task = self.queue.get_nowait()
+        return main_task
