@@ -11,12 +11,14 @@ class Test(BaseNamespace):
     def on_disconnect(self):
         print('[Disconnected]')
 
+    def on_GET_TASK_response(self,json):
+        print('on GET_TASK response,json=',json)
+
 
 def main():
     with SocketIO('127.0.0.1', 5000, Test, transports='websocket') as client:
-        client.emit('message', 'hello world.')
-        client.emit('message', 'hello world-2.')
-        client.wait(10)
+        client.emit('GET_TASK')
+        client.wait(5)
 
 
 if __name__ == '__main__':

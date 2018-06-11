@@ -1,0 +1,31 @@
+{% extends "base.html"%} {% block page_left_head %}
+<li class="breadcrumb-item active">任务队列管理</a>
+</li>
+{% endblock %} {% block page_left_body %}
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">队列序号</th>
+            <th scope="col">队列任务</th>
+            <th scope="col">队列节点</th>
+            <th scope="col">队列操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in queue %}
+        <tr>
+            <th scope="row">{{ task.id }}</th>
+            <td>
+                {{ task.main_task_id }}
+            </td>
+            <td>
+                {{ task.run_node_id }}
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

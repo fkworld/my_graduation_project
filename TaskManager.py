@@ -1,6 +1,7 @@
 '''任务管理模块主类
 '''
 
+
 import modelTask
 
 
@@ -25,7 +26,7 @@ class TaskManager(object):
         '''
         删除所有数据表
         '''
-        modelTask.metadata.drop_all(modelTask.Engine)
+        modelTask.Base.metadata.drop_all(modelTask.Engine)
 
     def show_all_task(self):
         '''
@@ -33,6 +34,11 @@ class TaskManager(object):
         '''
         all_task = self.main_task.search_all_task()
         return all_task
+
+    def show_all_queue(self):
+        all_task_queue = self.task_queue.search_all_task()
+        print(len(all_task_queue))
+        return all_task_queue
 
     def add_task(self, name, info, parameter):
         '''
@@ -50,10 +56,10 @@ class TaskManager(object):
         a_task = self.main_task.search_task_by_id(id)
         for i in range(100):
             self.task_queue.put_main_task_in_queue(a_task)
-        print(self.task_queue.queue.qsize())
 
     def get_task_in_queue(self):
-        """[从任务队列中获取任务并存为当前主任务]
+        """[从任务队列中获取任务]
         """
-
-        self.main_task = self.task_queue.get_main_task_in_queue()
+        task = self.task_queue.get_main_task_in_queue()
+        print(task)
+        return task

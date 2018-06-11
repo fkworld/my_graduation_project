@@ -110,30 +110,51 @@ class MainTask(Base):
         Popen(cmd).wait()
 
 
-class TaskQueue(object):
+class TaskQueue(Base):
     """任务队列类
-    任务队列最好使用redis写入，这里demo阶段直接保存在内存中
+    任务队列最好使用redis写入，这里demo阶段使用sqlite3写入
     """
 
-    def __init__(self):
-        """[初始化一个无限制的队列]
-        """
-        self.queue_name = 'test_queue'
-        self.queue = queue.Queue(maxsize=0)
+    __tablename__ = 'task_queue'
+
+    id = Column(Integer, primary_key=True)
+    main_task_id = Column(Integer)
+    run_node_id = Column(Integer, default=0)
 
     def put_main_task_in_queue(self, main_task):
-        """[将任务放入任务队列中]
+        """将任务放入队列数据库中
 
         Arguments:
             main_task {[type]} -- [description]
         """
-        self.queue.put_nowait(main_task)
+        self.main_task_id = main_task.index
+        session.add(self)
+        session.commit()
 
     def get_main_task_in_queue(self):
-        """[从队列中取任务]
+        """从队列数据库中取任务
 
         Returns:
             [MainTask()] -- [一个主任务类的实例]
         """
-        main_task = self.queue.get_nowait()
-        return main_task
+        x = 0
+        # result = session.query(TaskQueue).filter_by(run_node_id=x).all()[0]
+        x=1
+        result = session.query(TaskQueue).filter_by(id=x).all()[0]
+        print(result.main_task_id)
+        result_task = MainTask()
+        result_task = result_task.search_task_by_id(result.main_task_id)
+        self = session.query(TaskQueue).filter_by(id=result.id).one()
+        self.run_node_id = 1
+        session.commit()
+        return result_task
+
+    def search_all_task(self):
+        """查询所有任务
+
+        Returns:
+            list(MainTask()) -- 所有任务列表
+        """
+
+        result = session.query(TaskQueue).all()
+        return result

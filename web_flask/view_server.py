@@ -49,6 +49,11 @@ def task_manager_add_in_queue(task_id):
     TM.add_task_in_queue(task_id)
     return redirect(url_for("view_server.task_manager"))
 
+@view_server.route('/task_queue_manager')
+def task_queue_manager():
+    queue = TM.show_all_queue()
+    return render_template('queue_manager.html',queue = queue)
+
 
 @view_server.route('/use_guide')
 def use_guide():

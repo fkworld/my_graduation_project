@@ -3,6 +3,7 @@
 '''
 
 from flask_socketio import emit
+import json
 
 import NodeCheck
 import NodeConnect
@@ -41,7 +42,6 @@ server.load_modules()
 
 socketio = server.web.get_socketio()
 
-
 @socketio.on_error()
 def default_error(e):
     print('Error')
@@ -49,27 +49,24 @@ def default_error(e):
 
 @socketio.on('message')
 def connect(message):
-    print(11111)
     print('Get message', message)
 
 
-'''
-fake_server
-'''
-
-
-@socketio.on('game.ready')
-def game_ready(json):
-    '''服务器接收到cmd'game.ready'，表示客户端游戏已经准备好了
-    返回值：cmd'onStart'，通知客户端可以开始游戏
-    '''
-    print('get a game.ready message, and json=', str(json))
-    emit('onStart', json, broadcast=True)
-
-
-@socketio.on('game.test')
-def gametest(message):
+@socketio.on('test')
+def test(messgae):
     print('Get a test message', message)
+
+
+@socketio.on('GET_TASK')
+def get_a_task():
+    print('Get a task')
+    a = server.task_manager.get_task_in_queue()
+    print(a.passcode)
+    data = {
+        'id':1
+    }
+    json_str = json.dumps(data)
+    print(json_str)
 
 
 if __name__ == '__main__':
