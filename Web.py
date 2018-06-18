@@ -23,7 +23,9 @@ class Web(object):
 
     def load_blueprint(self):
         from web_flask.view_server import view_server
+        from web_flask.view_admin import view_admin
         self.app.register_blueprint(view_server, url_prefix='')
+        self.app.register_blueprint(view_admin, url_prefix='/admin')
 
     def get_socketio(self):
         '''获取到flask中定义的socketio上下文

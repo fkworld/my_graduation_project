@@ -8,6 +8,7 @@ flask-socketio = "*"
 sqlalchemy = "*"
 eventlet = "*"
 flask-wtf = "*"
+"autopep8" = "*"
 
 [dev-packages]
 
