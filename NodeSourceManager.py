@@ -39,9 +39,13 @@ class NodeSourceManager(object):
 
     def init_ftp_client(self):
         """初始化ftp client"""
-        self.ftp = FTP()
-        self.ftp.connect(FTP_HOST, FTP_PORT)
-        self.ftp.login(FTP_USER, FTP_PASSWORD)
+        try:
+            self.ftp = FTP()
+            self.ftp.connect(FTP_HOST, FTP_PORT)
+            self.ftp.login(FTP_USER, FTP_PASSWORD)
+            print('ftp服务器连接成功')
+        except:
+            print('ftp服务器连接失败')
 
     def ftp_download_file(self, remotepath, localpath, bufsize=1024):
         """从FTP服务器上下载文件"""

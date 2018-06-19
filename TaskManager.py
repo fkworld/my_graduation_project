@@ -40,11 +40,14 @@ class TaskManager(object):
         print(len(all_task_queue))
         return all_task_queue
 
-    def add_task(self, name, info, parameter):
+    def add_task(self, name, info, parameter, file_ext):
         '''
         添加一个任务
         '''
-        self.main_task.add_task(name, info, parameter)
+        self.main_task.add_task(name, info, parameter, file_ext)
+
+    def get_task_file_name(self):
+        return self.main_task.sourcefile_path
 
     def add_task_in_queue(self, id):
         """将一个任务添加到任务队列中

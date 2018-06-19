@@ -12,6 +12,8 @@ from sqlalchemy import Column, Integer, String, Text, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from config import WEB_UPLOAD, FTP_HOST, FTP_PORT
+
 Base = declarative_base()  # 创建对象的基类
 Engine = create_engine('sqlite:///database/Task.db', encoding='utf-8')
 Session = sessionmaker(bind=Engine)
@@ -33,31 +35,21 @@ class MainTask(Base):
     status = Column(Integer, default=0)  # 任务状态码
     update_time = Column(String(64))  # 最后更新时间
 
-    def generate_passcode(self, name, update_time):
-        '''
-        根据传输的name和update_time计算md5值
-        '''
+    def set_passcode(self):
+        """生成passcode"""
         hash = hashlib.md5()
-        hash.update(name.encode("utf8"))
-        hash.update(update_time.encode("utf8"))
-        passcode = hash.hexdigest()
-        print("Test: generated passcode = ", passcode)
-        return passcode
+        hash.update(self.name.encode("utf8"))
+        hash.update(self.update_time.encode("utf8"))
+        self.passcode = hash.hexdigest()
 
-    def generate_update_time(self):
-        '''
-        根据当前时间生成updatetime字符串
-        '''
-        update_time = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-        print("Test: generated update_time = ", update_time)
-        return update_time
+    def set_update_time(self):
+        """根据当前时间生成updatetime字符串"""
+        self.update_time = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 
     def set_sourcefile(self):
-        '''
-        根据上传文件设定sourcefile的相关信息
-        '''
-        self.sourcefile_path = "source_file_path"
-        self.sourcefile_url = "source_file_url"
+        """根据文件信息生成源文件的path和url"""
+        self.sourcefile_path = str(self.passcode) + '.' + self.file_ext
+        self.sourcefile_url = 'ftp://'+ FTP_HOST + ':' + str(FTP_PORT) + '/' + self.sourcefile_path
 
     def set_resultfile(self):
         '''
@@ -66,15 +58,14 @@ class MainTask(Base):
         self.resultfile_path = "result_file_path"
         self.resultfile_url = "result_file_url"
 
-    def add_task(self, name, info, parameter):
-        '''
-        添加一个任务信息到数据库中
-        '''
+    def add_task(self, name, info, parameter, file_ext):
+        """添加一个任务信息到数据库中"""
         self.name = name
         self.info = info
         self.parameter = parameter
-        self.update_time = self.generate_update_time()
-        self.passcode = self.generate_passcode(self.name, self.update_time)
+        self.file_ext = file_ext
+        self.set_update_time()
+        self.set_passcode()
         self.set_sourcefile()
         self.set_resultfile()
         session.add(self)
@@ -139,7 +130,7 @@ class TaskQueue(Base):
         """
         x = 0
         # result = session.query(TaskQueue).filter_by(run_node_id=x).all()[0]
-        x=1
+        x = 1
         result = session.query(TaskQueue).filter_by(id=x).all()[0]
         print(result.main_task_id)
         result_task = MainTask()

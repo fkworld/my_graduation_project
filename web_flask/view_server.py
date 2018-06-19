@@ -4,8 +4,7 @@
 
 import os
 
-from flask import (Blueprint, redirect, render_template, request, session,
-                   url_for)
+from flask import Blueprint, redirect, render_template, request, session, url_for
 from flask_socketio import emit
 
 import server_start
@@ -94,13 +93,21 @@ def upload_task():
     Returns:
         render_template()
     """
-
     form = web_flask.formTask.TaskForm()
     if form.validate_on_submit():
+        # 从表单中获取的信息
         name = form.name.data
         info = form.info.data
         parameter = form.parameter.data
-        TM.add_task(name, info, parameter)
+        file_args = form.file_args.data
+        # 获取文件后缀名（这里会存在一些文件名的BUG）
+        file_ext = file_args.split('.')[1]
+        # 添加一个任务到数据中
+        TM.add_task(name, info, parameter, file_ext)
+        # 本地重命名文件
+        old_file_name = file_args
+        new_file_name = TM.get_task_file_name()
+        os.rename(WEB_UPLOAD + old_file_name, WEB_UPLOAD + new_file_name)
         return redirect(url_for("view_server.task_manager"))
     return render_template('upload_task.html', form=form)
 
@@ -162,4 +169,5 @@ def upload_task_success():
             os.remove(filename)
         # 删除该分片所在的文件夹
         os.rmdir(WEB_UPLOAD_TEMP + '%s' % (task) + '/')
-    return redirect(url_for("view_server.upload_task"))
+    # 将filename作为参数传入
+    return redirect(url_for("view_server.upload_task", task_id=task, file_ext=ext))
