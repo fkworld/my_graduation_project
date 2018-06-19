@@ -1,11 +1,11 @@
 from ftplib import FTP
 
-import NodeConnect
+import NodeSourceManager
 
 
 def main():
     ftp = FTP()
-    ftp.connect('127.0.0.1', 2121)
+    ftp.connect('localhost', 5001)
     ftp.login('user', '12345')
     bufsize = 1024
     fp = open("ftp_download_files/download.md", 'wb')
@@ -15,10 +15,9 @@ def main():
 
 
 def main2():
-    client = NodeConnect.NodeConnect()
+    client = NodeSourceManager.NodeSourceManager()
     client.init_ftp_client()
-    # client.ftp_download_file('ftp_storage_files/README.md','ftp_download_files/download2.md')
-    client.ftp_upload_file('ftp_storage_files/upload.md', 'download.md')
+    client.ftp_download_file('111.blend','111.blend')
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6f0c7133173cfaf8a34e37ab5fdbb4188659dfb1b8f181d475868920863394b7"
+            "sha256": "5074c0966a59d670b4b581f723c824c644c89fa1477a0d4542f94e43c53132da"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -109,6 +109,13 @@
                 "sha256:cbfca99bd594a10f674d0cd97a3d802a1fdef635d4361e1a2658de47ed261e3a"
             ],
             "version": "==2.4.0"
+        },
+        "pyftpdlib": {
+            "hashes": [
+                "sha256:e5fca613978743d41c3bfc68e25a811d646a3b8a9eee9eb07021daca89646a0f"
+            ],
+            "index": "pypi",
+            "version": "==1.5.4"
         },
         "python-engineio": {
             "hashes": [

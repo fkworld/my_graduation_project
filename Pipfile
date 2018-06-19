@@ -9,6 +9,7 @@ sqlalchemy = "*"
 eventlet = "*"
 flask-wtf = "*"
 "autopep8" = "*"
+pyftpdlib = "*"
 
 [dev-packages]
 

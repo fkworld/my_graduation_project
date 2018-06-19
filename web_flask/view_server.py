@@ -2,15 +2,15 @@
 针对server角色的蓝图
 '''
 
-from flask import Blueprint, render_template, url_for, request, redirect, session
-from flask_socketio import emit
 import os
+
+from flask import (Blueprint, redirect, render_template, request, session,
+                   url_for)
+from flask_socketio import emit
 
 import server_start
 import web_flask.formTask
-
-WEB_UPLOAD = 'file_system/web_upload/'
-WEB_UPLOAD_TEMP = 'file_system/web_upload_temp/'
+from config import WEB_UPLOAD, WEB_UPLOAD_TEMP
 
 TM = server_start.server.task_manager
 
@@ -49,10 +49,11 @@ def task_manager_add_in_queue(task_id):
     TM.add_task_in_queue(task_id)
     return redirect(url_for("view_server.task_manager"))
 
+
 @view_server.route('/task_queue_manager')
 def task_queue_manager():
     queue = TM.show_all_queue()
-    return render_template('queue_manager.html',queue = queue)
+    return render_template('queue_manager.html', queue=queue)
 
 
 @view_server.route('/use_guide')
@@ -89,7 +90,7 @@ def preview_result():
 @view_server.route('/upload_task', methods=['GET', 'POST'])
 def upload_task():
     """上传任务，包括任务信息和任务源文件
-    
+
     Returns:
         render_template()
     """
