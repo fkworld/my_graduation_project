@@ -59,14 +59,18 @@ def test(messgae):
 
 @socketio.on('GET_TASK')
 def get_a_task():
-    print('Get a task')
-    a = server.task_manager.get_task_in_queue()
-    print(a.passcode)
+    # 获取一个task
+    TM = TaskManager.TaskManager()
+    a = TM.get_task_in_queue()
+    # 将task中的部分内容转换成json字符串
     data = {
-        'id':1
+        'id':a.index,
+        'passcode':a.passcode,
+        'sourcefile_path':a.sourcefile_path,
     }
     json_str = json.dumps(data)
-    print(json_str)
+    # 将json字符串返回
+    emit('GET_TASK_response',json_str)
 
 
 if __name__ == '__main__':

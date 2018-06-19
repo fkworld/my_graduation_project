@@ -64,5 +64,4 @@ class TaskManager(object):
         """[从任务队列中获取任务]
         """
         task = self.task_queue.get_main_task_in_queue()
-        print(task)
         return task

@@ -10,6 +10,7 @@ eventlet = "*"
 flask-wtf = "*"
 "autopep8" = "*"
 pyftpdlib = "*"
+socketio-client = "*"
 
 [dev-packages]
 
