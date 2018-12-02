@@ -20,3 +20,12 @@
     - node.py 节点端启动文件
     - client.py 客户端启动文件
     - init_db.py 服务器端初始化数据库
+
+### 流程
+- git clone https://github.com/fkworld/my_graduation_project.git
+- cmd下进入所在目录
+- python -m venv venv
+- venv\Scripts\activate
+- (venv) pip install -r docker\requirements.txt
+- (venv) mkdir database
+- (venv) python server_start.py
