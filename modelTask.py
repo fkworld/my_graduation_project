@@ -14,8 +14,9 @@ from sqlalchemy.orm import sessionmaker
 
 from config import WEB_UPLOAD, FTP_HOST, FTP_PORT
 
+
+Engine = create_engine('sqlite:///database/Task.db', encoding='utf-8', echo=True)
 Base = declarative_base()  # 创建对象的基类
-Engine = create_engine('sqlite:///database/Task.db', encoding='utf-8')
 Session = sessionmaker(bind=Engine)
 session = Session()
 
@@ -49,7 +50,8 @@ class MainTask(Base):
     def set_sourcefile(self):
         """根据文件信息生成源文件的path和url"""
         self.sourcefile_path = str(self.passcode) + '.' + self.file_ext
-        self.sourcefile_url = 'ftp://'+ FTP_HOST + ':' + str(FTP_PORT) + '/' + self.sourcefile_path
+        self.sourcefile_url = 'ftp://' + FTP_HOST + ':' + \
+            str(FTP_PORT) + '/' + self.sourcefile_path
 
     def set_resultfile(self):
         '''

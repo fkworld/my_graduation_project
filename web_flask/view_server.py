@@ -33,6 +33,9 @@ def test():
 
 @view_server.route('/node_manager')
 def node_manager():
+    # fengyong-fake-data
+    # 节点列表无法获取，这里使用一组伪数据代替
+    # 数据很诡异，修改modelNode.py
     node_list = server_start.server.node_manager.show_all_node()
     return render_template('node_manager.html', node_list=node_list)
 
@@ -107,7 +110,9 @@ def upload_task():
         # 本地重命名文件
         old_file_name = file_args
         new_file_name = TM.get_task_file_name()
-        os.rename(WEB_UPLOAD + old_file_name, WEB_UPLOAD + new_file_name)
+        # fengyong-fake-data
+        # 将文件保存去掉，使用伪数据代替
+        # os.rename(WEB_UPLOAD + old_file_name, WEB_UPLOAD + new_file_name)
         return redirect(url_for("view_server.task_manager"))
     return render_template('upload_task.html', form=form)
 

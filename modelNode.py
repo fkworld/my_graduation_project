@@ -72,6 +72,4 @@ class Node(Base):
         返回值：[Node]
         '''
         result = session.query(Node).all()
-        print("Test: result = ", result)
-        print("Test: result[0].passcode = ", result[0].passcode)
         return result

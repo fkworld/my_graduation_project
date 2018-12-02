@@ -1,4 +1,5 @@
 from socketIO_client import SocketIO, BaseNamespace
+from NodeSourceManager import NodeSourceManager
 
 
 
@@ -21,12 +22,15 @@ class Test(BaseNamespace):
         # 从ftp服务器上下载渲染源文件
 
         # 渲染
-
+        s = NodeSourceManager()
+        s.init_blender_path()
+        s.run_blender()
         # 渲染成功后，继续获取任务
         is_down = True
 
 
 def trans_jsonstr_to_obj(json):
+    pass
 
 
 def main():

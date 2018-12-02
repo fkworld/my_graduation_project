@@ -21,11 +21,12 @@ class NodeSourceManager(object):
         # 输出文件path # 其实是构建了一个带path的filename
         self.resultfile_path = '//result/result_####'
 
-    def run_blender(self, sourcefile_path):
+    def run_blender(self, sourcefile_path=""):
         '''执行渲染程序
         - sourcefile_path 渲染源文件路径
         - 参数参考：https://docs.blender.org/manual/zh-hans/dev/advanced/command_line/arguments.html
         '''
+        return
         cmd_list = []
         cmd_list.append(self.blender_path)
         cmd_list.append(self.sourcefile_path + sourcefile_path)
